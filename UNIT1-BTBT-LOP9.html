@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 1 - Grade 9</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            background-attachment: fixed;
+            color: #1f2937;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #c7c7cc; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a1a1aa; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+
+        /* Glassmorphism elements */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Gen Z Neobrutalism Border */
+        .genz-border {
+            border: 3px solid #1f2937;
+            box-shadow: 6px 6px 0px 0px #1f2937;
+            transition: all 0.2s ease;
+        }
+
+        /* Interactive Dictionary Word */
+        .dict-word {
+            color: #6d28d9;
+            font-weight: 700;
+            border-bottom: 2px dashed #8b5cf6;
+            cursor: pointer;
+            padding: 0 2px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        .dict-word:hover {
+            background-color: #ede9fe;
+            color: #4c1d95;
+            border-bottom: 2px solid #6d28d9;
+        }
+        
+        /* 3D Option button styling */
+        .option-label {
+            cursor: pointer;
+            display: block;
+            position: relative;
+            margin-top: 12px;
+            height: 100%;
+        }
+        .option-box {
+            border: 2px solid #1f2937;
+            border-radius: 0.75rem;
+            box-shadow: 3px 3px 0px 0px #1f2937;
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: white;
+            height: 100%;
+        }
+        .option-label:hover .option-box {
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0px 0px #1f2937;
+        }
+        .option-label:active .option-box {
+            transform: translate(2px, 2px);
+            box-shadow: 0px 0px 0px 0px #1f2937;
+        }
+        
+        /* Checked State Styling */
+        input[type="radio"]:checked + .option-box {
+            background-color: #1f2937 !important; 
+            border-color: #1f2937;
+            box-shadow: 4px 4px 0px 0px #a855f7 !important; 
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        input[type="radio"]:checked + .option-box .opt-text { color: white !important; }
+        input[type="radio"]:checked + .option-box .letter-circle {
+            background-color: #a855f7 !important;
+            color: white !important;
+            border-color: #1f2937;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.95); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        /* Result states */
+        .correct-ans {
+            background-color: #10b981 !important;
+            border-color: #1f2937 !important;
+            box-shadow: 4px 4px 0px 0px #1f2937 !important;
+            color: white !important;
+        }
+        .correct-ans .letter-circle { background-color: white !important; color: #10b981 !important; }
+        .correct-ans .opt-text { color: white !important; }
+
+        .wrong-ans {
+            background-color: #ef4444 !important;
+            border-color: #1f2937 !important;
+            box-shadow: 4px 4px 0px 0px #1f2937 !important;
+        }
+        .wrong-ans .letter-circle { background-color: white !important; color: #ef4444 !important; }
+        .wrong-ans .opt-text { color: white !important; }
+        
+        input:disabled + .option-box { cursor: not-allowed; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col relative">
+
+    <!-- OVERLAY: START TEST -->
+    <div id="startOverlay" class="fixed inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-md">
+        <div class="bg-white p-8 md:p-12 rounded-3xl genz-border text-center max-w-lg mx-4">
+            <div class="text-6xl mb-4">🌍</div>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-4">
+                Unit 1: English in the World
+            </h1>
+            <p class="text-gray-600 mb-8 text-lg">Bài kiểm tra tổng hợp: Từ vựng, Ngữ pháp, Đọc hiểu, Viết và Phát âm (Trọn bộ 70 câu).</p>
+            <button onclick="startTest()" class="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold py-4 px-8 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-200 text-xl genz-border">
+                Bắt Đầu Ngay 🚀
+            </button>
+        </div>
+    </div>
+
+    <!-- DICTIONARY MODAL -->
+    <div id="dictModal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300" onclick="closeDict(event)">
+        <div class="bg-white p-6 rounded-3xl genz-border w-full max-w-sm mx-4 transform scale-95 transition-transform duration-300" id="dictCard" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h3 class="text-3xl font-black text-indigo-700 capitalize flex items-center gap-2" id="dictWord">
+                        word
+                    </h3>
+                    <p class="text-gray-500 font-mono mt-1" id="dictPhonetic">/wɜːd/</p>
+                </div>
+                <button onclick="playAudio()" class="w-12 h-12 rounded-full bg-indigo-100 hover:bg-indigo-200 text-indigo-700 flex items-center justify-center genz-border transition-transform active:scale-90" title="Nghe phát âm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="space-y-3">
+                <div class="flex items-center gap-2">
+                    <span class="bg-yellow-200 text-yellow-800 text-xs font-bold px-2 py-1 rounded-md uppercase tracking-wide border border-yellow-400" id="dictPos">Noun</span>
+                    <span class="text-lg font-medium text-gray-800" id="dictMeaning">Ý nghĩa tiếng Việt</span>
+                </div>
+                
+                <div class="bg-gray-50 p-3 rounded-xl border border-gray-200" id="dictSynAnt">
+                    <p class="text-sm text-gray-600"><span class="font-bold text-green-600">Đồng nghĩa:</span> <span id="dictSyn">synonym 1, synonym 2</span></p>
+                    <p class="text-sm text-gray-600 mt-1"><span class="font-bold text-red-600">Trái nghĩa:</span> <span id="dictAnt">antonym</span></p>
+                </div>
+            </div>
+            
+            <button onclick="closeDictManual()" class="mt-6 w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-2 rounded-xl transition-colors">
+                Đóng
+            </button>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-gray-200 px-4 py-3 shadow-sm">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">📚</span>
+                <h1 class="font-bold text-lg hidden sm:block bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">Review: Unit 1 - Created by Mr Hoa Van</h1>
+            </div>
+            <div class="flex items-center gap-4">
+                <div id="timerBox" class="bg-blue-100 text-blue-800 font-mono font-bold text-xl px-4 py-2 rounded-xl border-2 border-blue-200 flex items-center gap-2 transition-colors">
+                    ⏳ <span id="timeDisplay">45:00</span>
+                </div>
+                <button onclick="submitTest()" id="submitBtnTop" class="bg-gray-900 hover:bg-gray-800 text-white font-bold py-2 px-6 rounded-xl transition-colors hidden sm:block">
+                    Nộp Bài
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-7xl mx-auto w-full px-4 py-8">
+        
+        <form id="testForm" onsubmit="event.preventDefault(); submitTest();">
+            
+            <!-- PART 1: VOCABULARY -->
+            <div class="mb-12">
+                <h2 class="text-xl font-bold mb-6 text-emerald-700 bg-emerald-100 inline-block px-5 py-2 rounded-2xl genz-border">Part 1: Vocabulary</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="q-container-vocab">
+                    <!-- Vocab Questions injected via JS -->
+                </div>
+            </div>
+
+            <!-- PART 2: GRAMMAR -->
+            <div class="mb-12">
+                <h2 class="text-xl font-bold mb-6 text-blue-700 bg-blue-100 inline-block px-5 py-2 rounded-2xl genz-border">Part 2: Grammar</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="q-container-grammar">
+                    <!-- Grammar Questions injected via JS -->
+                </div>
+            </div>
+
+            <!-- PART 3: INTERACTIVE READING COMPREHENSION -->
+            <div class="mb-12">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-bold text-indigo-700 bg-indigo-100 inline-block px-5 py-2 rounded-2xl genz-border">Part 3: Reading Comprehension</h2>
+                    <span class="animate-bounce bg-yellow-300 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full border-2 border-yellow-500 hidden md:block">💡 Click vào từ màu tím để tra từ điển!</span>
+                </div>
+                
+                <div class="flex flex-col lg:flex-row gap-6">
+                    <!-- Left: Reading Passage (60%) -->
+                    <div class="lg:w-[60%] glass-panel rounded-3xl p-6 lg:p-8 lg:sticky lg:top-24 lg:max-h-[80vh] overflow-y-auto custom-scrollbar border-2 border-indigo-100">
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded-r-lg md:hidden">
+                            <p class="text-sm text-yellow-800 font-medium">💡 <b>Mẹo:</b> Hãy nhấn vào các từ được gạch chân màu tím để xem nghĩa, phát âm và từ đồng nghĩa nhé!</p>
+                        </div>
+
+                        <h3 class="text-2xl font-black mb-6 text-gray-800">Why Do People Learn English?</h3>
+                        
+                        <p class="text-gray-700 leading-relaxed text-lg mb-5 text-justify">
+                            People learn English for <span class="dict-word" onclick="openDict('various')">various</span> reasons. For some, it is <span class="dict-word" onclick="openDict('necessary')">necessary</span> for their jobs or future <span class="dict-word" onclick="openDict('careers')">careers</span>. English is often <span class="dict-word" onclick="openDict('required')">required</span> in international business, science, and technology fields. Others learn English to travel more easily and <span class="dict-word" onclick="openDict('communicate')">communicate</span> with people from different countries. Additionally, many students study English to <span class="dict-word" onclick="openDict('access')">access</span> higher education <span class="dict-word" onclick="openDict('opportunities')">opportunities</span> in English-speaking countries.
+                        </p>
+                        <p class="text-gray-700 leading-relaxed text-lg mb-5 text-justify">
+                            Learning English can be done in many different ways. Some people take classes at school or language centers, while others use online <span class="dict-word" onclick="openDict('resources')">resources</span> like apps and websites. Watching English movies and TV shows, listening to English music, and reading books and newspapers in English are also <span class="dict-word" onclick="openDict('popular')">popular</span> methods. These activities help improve listening, speaking, and reading skills in a fun and <span class="dict-word" onclick="openDict('engaging')">engaging</span> way.
+                        </p>
+                        <p class="text-gray-700 leading-relaxed text-lg mb-5 text-justify">
+                            Engaging in different activities in English can be very <span class="dict-word" onclick="openDict('beneficial')">beneficial</span>. Watching movies and listening to music in English can improve your understanding of the language and <span class="dict-word" onclick="openDict('familiarize')">familiarize</span> you with different accents. Reading books and newspapers can <span class="dict-word" onclick="openDict('expand')">expand</span> your vocabulary and enhance <span class="dict-word" onclick="openDict('comprehension')">comprehension</span>. These enjoyable methods make learning English a wonderful experience, encouraging continuous practice and improvement.
+                        </p>
+                    </div>
+                    
+                    <!-- Right: Questions (40%) -->
+                    <div class="lg:w-[40%] flex flex-col gap-4">
+                        <div class="bg-indigo-600 text-white p-4 rounded-2xl shadow-md">
+                            <h4 class="font-bold text-lg">📝 Task: True (T) or False (F)?</h4>
+                            <p class="text-indigo-100 text-sm">Read the passage carefully then decide whether the following statements are True or False.</p>
+                        </div>
+                        <div id="q-container-reading" class="flex flex-col gap-4">
+                            <!-- True False Questions injected via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PART 4: WRITING -->
+            <div class="mb-12">
+                <h2 class="text-xl font-bold mb-6 text-orange-700 bg-orange-100 inline-block px-5 py-2 rounded-2xl genz-border">Part 4: Writing</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="q-container-writing">
+                    <!-- Writing Questions injected via JS -->
+                </div>
+            </div>
+
+            <!-- PART 5: PRONUNCIATION -->
+            <div class="mb-12">
+                <h2 class="text-xl font-bold mb-6 text-pink-700 bg-pink-100 inline-block px-5 py-2 rounded-2xl genz-border">Part 5: Pronunciation & Stress</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="q-container-pronun">
+                    <!-- Pronunciation Questions injected via JS -->
+                </div>
+            </div>
+
+            <!-- SUBMIT BUTTON BOTTOM -->
+            <div class="text-center mt-12 mb-8">
+                <button type="submit" id="submitBtnBottom" class="bg-gray-900 hover:bg-gray-800 text-white font-black py-4 px-12 rounded-2xl shadow-xl transform hover:-translate-y-1 transition-all duration-200 text-2xl genz-border">
+                    Nộp Bài Ngay ✨
+                </button>
+            </div>
+
+        </form>
+    </main>
+
+    <!-- RESULT MODAL -->
+    <div id="resultModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white p-8 md:p-12 rounded-3xl genz-border text-center max-w-md mx-4 transform scale-95 transition-transform duration-300" id="resultCard">
+            <div class="text-6xl mb-4" id="resultIcon">🎉</div>
+            <h2 class="text-3xl font-extrabold mb-2 text-gray-800">Điểm số của bạn</h2>
+            <div class="inline-block bg-gray-100 p-6 rounded-2xl mb-6 genz-border">
+                <p class="text-6xl font-black text-indigo-600"><span id="scoreText">0</span><span class="text-3xl text-gray-500">/70</span></p>
+            </div>
+            <p class="text-gray-600 mb-8 font-medium text-lg">Tuyệt vời! Hãy xem lại các câu có màu đỏ để rút kinh nghiệm nhé!</p>
+            <button onclick="closeResultModal()" class="w-full bg-indigo-600 text-white font-bold py-4 px-6 rounded-xl hover:bg-indigo-700 transition-colors text-lg genz-border">
+                Xem Lại Bài Làm
+            </button>
+        </div>
+    </div>
+
+    <!-- DATA & SCRIPT -->
+    <script>
+        // --- DICTIONARY DATA ---
+        const dictionaryData = {
+            "various": { pos: "Adj", phonetic: "/ˈveə.ri.əs/", vi: "đa dạng, nhiều thứ khác nhau", syn: "diverse, different, numerous", ant: "uniform, identical" },
+            "necessary": { pos: "Adj", phonetic: "/ˈnes.ə.ser.i/", vi: "cần thiết, thiết yếu", syn: "essential, crucial, required", ant: "unnecessary, optional" },
+            "careers": { pos: "Noun", phonetic: "/kəˈrɪərz/", vi: "sự nghiệp, nghề nghiệp", syn: "professions, occupations, jobs", ant: "N/A" },
+            "required": { pos: "Verb/Adj", phonetic: "/rɪˈkwaɪərd/", vi: "được yêu cầu, đòi hỏi", syn: "mandatory, obligatory, demanded", ant: "optional, voluntary" },
+            "communicate": { pos: "Verb", phonetic: "/kəˈmjuː.nɪ.keɪt/", vi: "giao tiếp, truyền đạt", syn: "interact, converse, contact", ant: "conceal, keep quiet" },
+            "access": { pos: "Verb", phonetic: "/ˈæk.ses/", vi: "truy cập, tiếp cận", syn: "enter, reach, gain", ant: "deny, exit" },
+            "opportunities": { pos: "Noun", phonetic: "/ˌɒp.əˈtjuː.nə.tiz/", vi: "cơ hội, thời cơ", syn: "chances, prospects, possibilities", ant: "disadvantages, threats" },
+            "resources": { pos: "Noun", phonetic: "/rɪˈzɔː.sɪz/", vi: "tài nguyên, nguồn lực", syn: "materials, supplies, sources", ant: "N/A" },
+            "popular": { pos: "Adj", phonetic: "/ˈpɒp.jə.lər/", vi: "phổ biến, được yêu thích", syn: "famous, widespread, common", ant: "unpopular, unknown" },
+            "engaging": { pos: "Adj", phonetic: "/ɪnˈɡeɪ.dʒɪŋ/", vi: "hấp dẫn, lôi cuốn", syn: "interesting, fascinating, captivating", ant: "boring, dull" },
+            "beneficial": { pos: "Adj", phonetic: "/ˌben.ɪˈfɪʃ.əl/", vi: "có lợi, mang lại lợi ích", syn: "helpful, advantageous, useful", ant: "harmful, detrimental" },
+            "familiarize": { pos: "Verb", phonetic: "/fəˈmɪl.i.ə.raɪz/", vi: "làm quen với", syn: "accustom, acquaint", ant: "unfamiliarize" },
+            "expand": { pos: "Verb", phonetic: "/ɪkˈspænd/", vi: "mở rộng, phát triển", syn: "increase, enlarge, grow", ant: "shrink, contract, reduce" },
+            "comprehension": { pos: "Noun", phonetic: "/ˌkɒm.prɪˈhen.ʃən/", vi: "sự hiểu biết, sự nhận thức", syn: "understanding, grasp, awareness", ant: "misunderstanding, ignorance" }
+        };
+
+        // --- QUESTION DATA (Trọn bộ 70 câu) ---
+        const questionsData = [
+            // PART 1: VOCABULARY (24 questions)
+            { id: 1, type: "mcq", section: "vocab", qText: "What is the definition of \"come across\"?", options: ["to find or meet by chance", "involving two or more countries", "the words of a song", "a chance for something to happen"], correct: 0 },
+            { id: 2, type: "mcq", section: "vocab", qText: "What is the definition of \"opportunity\"?", options: ["to write something so you do not forget", "a chance for something to happen", "extending throughout the whole world", "the information covered in a book"], correct: 1 },
+            { id: 3, type: "mcq", section: "vocab", qText: "What is the definition of \"worldwide\"?", options: ["extending or reaching throughout the whole world", "involving two or more countries", "the state of having great value", "to find or meet by chance"], correct: 0 },
+            { id: 4, type: "mcq", section: "vocab", qText: "What is the definition of \"note down\"?", options: ["the words of a song", "to write something so that you do not forget it", "involving two or more countries", "a chance for something to happen"], correct: 1 },
+            { id: 5, type: "mcq", section: "vocab", qText: "What is the definition of \"importance\"?", options: ["the state or quality of having great meaning or value", "the information or topics covered in media", "involving two countries", "to meet by chance"], correct: 0 },
+            { id: 6, type: "mcq", section: "vocab", qText: "What is the definition of \"international\"?", options: ["extending throughout the world", "involving two or more countries", "the words of a song", "the state of having great meaning"], correct: 1 },
+            { id: 7, type: "mcq", section: "vocab", qText: "What is the definition of \"content\"?", options: ["to write something to not forget", "the information or topics covered in a book or media", "a chance to do something", "involving two countries"], correct: 1 },
+            { id: 8, type: "mcq", section: "vocab", qText: "What is the definition of \"lyric\"?", options: ["the state of having great value", "to find by chance", "the words of a song", "involving two or more countries"], correct: 2 },
+            
+            { id: 9, type: "mcq", section: "vocab", qText: "The teacher showed us a new ______ to solve the problem this morning.", options: ["method", "career", "foreign", "belongings"], correct: 0 },
+            { id: 10, type: "mcq", section: "vocab", qText: "Don't forget to ______ the alarm system before you leave the house.", options: ["figure out", "turn on", "note down", "come across"], correct: 1 },
+            { id: 11, type: "mcq", section: "vocab", qText: "After graduating from university, she pursued a ______ in graphic design.", options: ["method", "career", "belongings", "foreign"], correct: 1 },
+            { id: 12, type: "mcq", section: "vocab", qText: "Regular exercise is ______ for maintaining good health.", options: ["foreign", "overseas", "essential", "engaging"], correct: 2 },
+            { id: 13, type: "mcq", section: "vocab", qText: "Mr. Nam decided to move ______ for a job opportunity in Australia.", options: ["overseas", "foreign", "worldwide", "international"], correct: 0 },
+            { id: 14, type: "mcq", section: "vocab", qText: "Ms. Lan loves to learn ______ languages like Spanish and French.", options: ["overseas", "international", "foreign", "essential"], correct: 2 },
+            { id: 15, type: "mcq", section: "vocab", qText: "She found her lost ______ at the school canteen.", options: ["resources", "belongings", "careers", "methods"], correct: 1 },
+            { id: 16, type: "mcq", section: "vocab", qText: "It took me a while to ______ the meaning of English idioms.", options: ["turn on", "note down", "figure out", "come across"], correct: 2 },
+
+            { id: 17, type: "mcq", section: "vocab", qText: "English is ______ for business and international trade. (use)", options: ["usefully", "useful", "usefulness", "usage"], correct: 1 },
+            { id: 18, type: "mcq", section: "vocab", qText: "The teacher asked for the students' ______ before starting the lesson. (attend)", options: ["attendance", "attend", "attentively", "attentive"], correct: 0 },
+            { id: 19, type: "mcq", section: "vocab", qText: "She speaks English ______ after living in the UK for five years. (fluent)", options: ["fluent", "fluency", "fluently", "fluentness"], correct: 2 },
+            { id: 20, type: "mcq", section: "vocab", qText: "Understanding the ______ of English conversations can help you connect with people. (mean)", options: ["meaningful", "meaning", "meaningless", "meant"], correct: 1 },
+            { id: 21, type: "mcq", section: "vocab", qText: "There are differences in English accents and ______ used in different countries. (express)", options: ["expressly", "expressive", "expressions", "expresses"], correct: 2 },
+            { id: 22, type: "mcq", section: "vocab", qText: "Watching English news channels can be ______ and help improve your language skills. (inform)", options: ["informative", "information", "inform", "informally"], correct: 0 },
+            { id: 23, type: "mcq", section: "vocab", qText: "Her ______ has improved a lot since she started taking English classes. (pronounce)", options: ["pronounce", "pronounced", "pronunciation", "pronouncing"], correct: 2 },
+            { id: 24, type: "mcq", section: "vocab", qText: "English is often the language used at ______ conferences and events. (nation)", options: ["national", "international", "globally", "nationally"], correct: 1 },
+
+            // PART 2: GRAMMAR (21 questions)
+            { id: 25, type: "mcq", section: "grammar", qText: "Many people learn English to ______ globally and improve their opportunities.", options: ["communicating", "communicate", "communicated", "communicates"], correct: 1 },
+            { id: 26, type: "mcq", section: "grammar", qText: "______ to music is a great way to improve your English skills.", options: ["Listen", "To listening", "Listening", "Listened"], correct: 2 },
+            { id: 27, type: "mcq", section: "grammar", qText: "I'm sure that you ______ the English language festival next weekend.", options: ["enjoy", "enjoyed", "will enjoy", "are enjoying"], correct: 2 },
+            { id: 28, type: "mcq", section: "grammar", qText: "It is important to learn how English ______ in different regions.", options: ["speaks", "is speaking", "spoke", "is spoken"], correct: 3 },
+            { id: 29, type: "mcq", section: "grammar", qText: "The avid reader spends an hour each night ______ before bed.", options: ["reading", "to read", "read", "reads"], correct: 0 },
+            { id: 30, type: "mcq", section: "grammar", qText: "Our teacher planned a field trip ______ around historic sites.", options: ["travel", "traveling", "to travel", "traveled"], correct: 2 },
+            { id: 31, type: "mcq", section: "grammar", qText: "She ______ new things about English culture during her stay in London.", options: ["learn", "learned", "is learning", "has learned"], correct: 1 },
+            { id: 32, type: "mcq", section: "grammar", qText: "Do you watch TV shows in English ______ new words every day?", options: ["learning", "learn", "to learn", "learned"], correct: 2 },
+
+            { id: 33, type: "mcq", section: "grammar", qText: "Tomorrow, the teacher will ______ the English grammar rules again before the test.", options: ["go over", "look up", "turn on", "look for"], correct: 0 },
+            { id: 34, type: "mcq", section: "grammar", qText: "They ______ an interesting article about English grammar last week.", options: ["went over", "came across", "figured out", "noted down"], correct: 1 },
+            { id: 35, type: "mcq", section: "grammar", qText: "I try my best to ______ new English words in the dictionary to improve my vocabulary.", options: ["look up", "look over", "look for", "turn on"], correct: 0 },
+            { id: 36, type: "mcq", section: "grammar", qText: "My friend often ______ an English-speaking partner to practice conversation with.", options: ["looks over", "looks for", "comes across", "notes down"], correct: 1 },
+            { id: 37, type: "mcq", section: "grammar", qText: "My younger sister is trying to ______ the meaning of English idioms.", options: ["figure out", "turn on", "go over", "look up"], correct: 0 },
+            { id: 38, type: "mcq", section: "grammar", qText: "To practice my listening skills, I ______ English news channels every morning.", options: ["note down", "look over", "turn on", "come across"], correct: 2 },
+            { id: 39, type: "mcq", section: "grammar", qText: "She ______ all the important points from the English lecture yesterday.", options: ["noted down", "went over", "figured out", "looked up"], correct: 0 },
+            { id: 40, type: "mcq", section: "grammar", qText: "He needs to ______ his essay to check for any English spelling mistakes.", options: ["look for", "look over", "come across", "turn on"], correct: 1 },
+
+            { id: 41, type: "mcq", section: "grammar", qText: "Find the mistake: She <u>enjoy</u> watching English news to understand global events.", options: ["She", "enjoy", "watching", "to understand"], correct: 1 },
+            { id: 42, type: "mcq", section: "grammar", qText: "Find the mistake: They attended an extensive language course yesterday <u>improves</u> their English.", options: ["attended", "extensive", "yesterday", "improves"], correct: 3 },
+            { id: 43, type: "mcq", section: "grammar", qText: "Find the mistake: I like reading newspapers in English because it <u>help</u> me learn new words.", options: ["reading", "in", "help", "new"], correct: 2 },
+            { id: 44, type: "mcq", section: "grammar", qText: "Find the mistake: He <u>visits</u> the USA to learn more about American traditions and lifestyle last year.", options: ["visits", "to learn", "about", "last year"], correct: 0 },
+            { id: 45, type: "mcq", section: "grammar", qText: "Find the mistake: One method <u>for to learn</u> English is to practice speaking every day.", options: ["method", "for to learn", "is", "speaking"], correct: 1 },
+
+            // PART 3: READING (5 questions)
+            { id: 46, type: "tf", section: "reading", qText: "English is rarely required in international business and technology fields.", options: ["True", "False"], correct: 1 },
+            { id: 47, type: "tf", section: "reading", qText: "Only a few students learn English to enter higher education in English-speaking countries.", options: ["True", "False"], correct: 1 },
+            { id: 48, type: "tf", section: "reading", qText: "Different activities in English make learning more difficult.", options: ["True", "False"], correct: 1 },
+            { id: 49, type: "tf", section: "reading", qText: "Listening to English music can familiarize you with different accents.", options: ["True", "False"], correct: 0 },
+            { id: 50, type: "tf", section: "reading", qText: "Engaging in enjoyable methods encourages continuous practice and improvement.", options: ["True", "False"], correct: 0 },
+
+            // PART 4: WRITING (10 questions)
+            { id: 51, type: "mcq", section: "writing", qText: "He finds reading English novels interesting as it helps him enhance his vocabulary. (enjoys)", options: ["He enjoys reading English novels as it helps him enhance his vocabulary.", "He enjoys to read English novels as it helps him enhance his vocabulary.", "He enjoys read English novels as it helps him enhance his vocabulary.", "He is enjoying reading English novels as it helps him enhance his vocabulary."], correct: 0 },
+            { id: 52, type: "mcq", section: "writing", qText: "They read English newspapers. They want to stay updated on world events. (since)", options: ["They read English newspapers since they want to stay updated on world events.", "Since they read English newspapers, they stay updated on world events.", "They read English newspapers, since staying updated on world events.", "They want to stay updated on world events since reading English newspapers."], correct: 0 },
+            { id: 53, type: "mcq", section: "writing", qText: "She listens to English music; she wants to improve her listening skills. (to-infinitive)", options: ["She listens to English music improving her listening skills.", "She listens to English music to improve her listening skills.", "She listens to English music for to improve her listening skills.", "She listens to English music so as improving her listening skills."], correct: 1 },
+            { id: 54, type: "mcq", section: "writing", qText: "Online English courses have become popular because they offer flexibility to learners. (because of)", options: ["Online English courses have become popular because of they offer flexibility.", "Online English courses have become popular because of offering flexibility to learners.", "Because of online English courses, they offer flexibility to learners.", "Online English courses have become popular because of flexibility offer to learners."], correct: 1 },
+            { id: 55, type: "mcq", section: "writing", qText: "One great method for practicing English skills is to watch English films with subtitles. (watching)", options: ["One great method for practicing English skills is watching English films with subtitles.", "Watching English films with subtitles are one great method for practicing English skills.", "One great method for practicing English skills watching English films with subtitles.", "To watching English films with subtitles is one great method for practicing English skills."], correct: 0 },
+            
+            { id: 56, type: "mcq", section: "writing", qText: "Make question for the underlined part: Many students enjoy learning English <u>because it is a global language</u>.", options: ["What do many students enjoy learning English?", "Why do many students enjoy learning English?", "When do many students enjoy learning English?", "How do many students enjoy learning English?"], correct: 1 },
+            { id: 57, type: "mcq", section: "writing", qText: "Make question for the underlined part: I'm noting down <u>some important words and phrases</u> to use in my writing.", options: ["Why are you noting down?", "Who is noting down some important words?", "What are you noting down to use in your writing?", "How are you noting down some important words?"], correct: 2 },
+            { id: 58, type: "mcq", section: "writing", qText: "Make question for the underlined part: She often uses <u>the \"shadowing\" method</u> to practice speaking English more fluently.", options: ["What method does she often use to practice speaking English more fluently?", "Why does she often use the \"shadowing\" method?", "How does she often practice speaking English?", "When does she often use the \"shadowing\" method?"], correct: 0 },
+            { id: 59, type: "mcq", section: "writing", qText: "Make question for the underlined part: I can look up new words <u>in the Oxford Dictionary</u> to know their meanings.", options: ["What can I look up new words?", "Why can I look up new words in the Oxford Dictionary?", "Where can I look up new words to know their meanings?", "How can I look up new words?"], correct: 2 },
+            { id: 60, type: "mcq", section: "writing", qText: "Make question for the underlined part: <u>Watching TV shows in English</u> is another fun activity you can do to improve your English.", options: ["Why is watching TV shows in English a fun activity?", "What is another fun activity you can do to improve your English?", "How can you watch TV shows in English?", "Where is another fun activity you can do?"], correct: 1 },
+
+            // PART 5: PRONUNCIATION & STRESS (10 questions)
+            { id: 61, type: "mcq", section: "pronun", qText: "Choose the word whose underlined part is pronounced differently: m<u>e</u>thod, b<u>e</u>long, <u>e</u>ssential, <u>e</u>vent", options: ["m<u>e</u>thod", "b<u>e</u>long", "<u>e</u>ssential", "<u>e</u>vent"], correct: 0 },
+            { id: 62, type: "mcq", section: "pronun", qText: "Choose the word whose underlined part is pronounced differently: f<u>i</u>gure, subt<u>i</u>tle, <u>i</u>mportant, lyr<u>i</u>c", options: ["f<u>i</u>gure", "subt<u>i</u>tle", "<u>i</u>mportant", "lyr<u>i</u>c"], correct: 1 },
+            { id: 63, type: "mcq", section: "pronun", qText: "Choose the word whose underlined part is pronounced differently: n<u>o</u>te, <u>o</u>verseas, meth<u>o</u>d, kn<u>o</u>w", options: ["n<u>o</u>te", "<u>o</u>verseas", "meth<u>o</u>d", "kn<u>o</u>w"], correct: 2 },
+            { id: 64, type: "mcq", section: "pronun", qText: "Choose the word whose underlined part is pronounced differently: f<u>o</u>reign, c<u>o</u>ntent, b<u>o</u>red, expl<u>o</u>re", options: ["f<u>o</u>reign", "c<u>o</u>ntent", "b<u>o</u>red", "expl<u>o</u>re"], correct: 0 },
+            { id: 65, type: "mcq", section: "pronun", qText: "Choose the word whose underlined part is pronounced differently: essen<u>tial</u>, impor<u>tance</u>, interna<u>tional</u>, forma<u>tion</u>", options: ["essen<u>tial</u>", "impor<u>tance</u>", "interna<u>tional</u>", "forma<u>tion</u>"], correct: 1 },
+
+            { id: 66, type: "mcq", section: "pronun", qText: "Choose the word whose main stress is placed differently:", options: ["purpose", "future", "reason", "increase (v)"], correct: 3 },
+            { id: 67, type: "mcq", section: "pronun", qText: "Choose the word whose main stress is placed differently:", options: ["worldwide", "content (n)", "improve", "career"], correct: 1 },
+            { id: 68, type: "mcq", section: "pronun", qText: "Choose the word whose main stress is placed differently:", options: ["conversation", "community", "opportunity", "information"], correct: 1 },
+            { id: 69, type: "mcq", section: "pronun", qText: "Choose the word whose main stress is placed differently:", options: ["important", "extremely", "example", "overseas"], correct: 3 },
+            { id: 70, type: "mcq", section: "pronun", qText: "Choose the word whose main stress is placed differently:", options: ["challenging", "difficult", "essential", "favorite"], correct: 2 }
+        ];
+
+        // --- DICTIONARY LOGIC ---
+        let currentWordAudio = null;
+
+        function openDict(wordKey) {
+            const data = dictionaryData[wordKey];
+            if (!data) return;
+
+            currentWordAudio = wordKey; 
+            
+            document.getElementById('dictWord').innerText = wordKey;
+            document.getElementById('dictPhonetic').innerText = data.phonetic;
+            
+            const posBadge = document.getElementById('dictPos');
+            posBadge.innerText = data.pos;
+            posBadge.className = data.pos.includes('Noun') ? 'bg-blue-200 text-blue-800 text-xs font-bold px-2 py-1 rounded-md uppercase tracking-wide border border-blue-400' :
+                                 data.pos.includes('Verb') ? 'bg-red-200 text-red-800 text-xs font-bold px-2 py-1 rounded-md uppercase tracking-wide border border-red-400' :
+                                 'bg-yellow-200 text-yellow-800 text-xs font-bold px-2 py-1 rounded-md uppercase tracking-wide border border-yellow-400';
+
+            document.getElementById('dictMeaning').innerText = data.vi;
+            document.getElementById('dictSyn').innerText = data.syn;
+            document.getElementById('dictAnt').innerText = data.ant;
+
+            const modal = document.getElementById('dictModal');
+            const card = document.getElementById('dictCard');
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                card.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeDict(e) {
+            if (e.target.id === 'dictModal') {
+                closeDictManual();
+            }
+        }
+
+        function closeDictManual() {
+            const modal = document.getElementById('dictModal');
+            const card = document.getElementById('dictCard');
+            
+            modal.classList.add('opacity-0');
+            card.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function playAudio() {
+            if (!currentWordAudio) return;
+            const utterance = new SpeechSynthesisUtterance(currentWordAudio);
+            utterance.lang = 'en-US'; 
+            utterance.rate = 0.9;     
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // --- RENDER QUESTIONS ---
+        function renderQuestions() {
+            const colors = ['bg-[#e0e7ff]', 'bg-[#fce7f3]', 'bg-[#fef9c3]', 'bg-[#dcfce7]'];
+            
+            questionsData.forEach(q => {
+                const container = document.getElementById(`q-container-${q.section}`);
+                if (!container) return;
+
+                const qDiv = document.createElement('div');
+                qDiv.className = "bg-white rounded-3xl p-5 shadow-sm border border-gray-200 hover:shadow-md transition h-full flex flex-col";
+                
+                let optionsHtml = '';
+                
+                if(q.type === "tf") {
+                    optionsHtml = q.options.map((opt, i) => `
+                        <label class="option-label">
+                            <input type="radio" name="q${q.id}" value="${i}" class="peer hidden">
+                            <div class="option-box p-3 flex items-center justify-center gap-2 ${i===0 ? 'bg-blue-50' : 'bg-red-50'}">
+                                <span class="opt-text text-lg font-bold text-gray-800">${opt}</span>
+                            </div>
+                        </label>
+                    `).join('');
+                } else {
+                    optionsHtml = q.options.map((opt, i) => `
+                        <label class="option-label flex-grow">
+                            <input type="radio" name="q${q.id}" value="${i}" class="peer hidden">
+                            <div class="option-box p-3 flex items-center gap-3 ${colors[i%4]}">
+                                <span class="letter-circle w-8 h-8 rounded-full bg-white flex items-center justify-center font-black text-sm shrink-0 border-2 border-gray-900 text-gray-900">${String.fromCharCode(65 + i)}</span>
+                                <span class="opt-text text-[15px] font-semibold text-gray-800 leading-snug">${opt}</span>
+                            </div>
+                        </label>
+                    `).join('');
+                }
+
+                qDiv.innerHTML = `
+                    <div class="mb-4 flex-grow">
+                        <h4 class="font-bold text-gray-500 text-sm mb-1 uppercase tracking-wider">Question ${q.id}</h4>
+                        <p class="font-semibold text-[1.05rem] text-gray-800">${q.qText}</p>
+                    </div>
+                    <div class="${q.type === 'tf' ? 'grid grid-cols-2 gap-3 mt-auto' : 'grid grid-cols-1 sm:grid-cols-2 gap-3 mt-auto'}">
+                        ${optionsHtml}
+                    </div>
+                `;
+                container.appendChild(qDiv);
+            });
+        }
+
+        // --- TIMER & SUBMISSION LOGIC ---
+        let timeLeft = 2700; // 45 minutes
+        let timerInterval;
+        let isSubmitted = false;
+
+        function startTest() {
+            document.getElementById('startOverlay').style.display = 'none';
+            timerInterval = setInterval(() => {
+                if(isSubmitted) return;
+                timeLeft--;
+                let m = Math.floor(timeLeft / 60);
+                let s = timeLeft % 60;
+                document.getElementById('timeDisplay').innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+
+                if (timeLeft === 60) {
+                    document.getElementById('timerBox').classList.replace('bg-blue-100', 'bg-red-100');
+                    document.getElementById('timerBox').classList.replace('text-blue-800', 'text-red-600');
+                    document.getElementById('timerBox').classList.replace('border-blue-200', 'border-red-300');
+                    document.getElementById('timerBox').classList.add('animate-pulse');
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitTest();
+                }
+            }, 1000);
+        }
+
+        function submitTest() {
+            if(isSubmitted) return;
+            isSubmitted = true;
+            clearInterval(timerInterval);
+            
+            let score = 0;
+            
+            questionsData.forEach(q => {
+                const selected = document.querySelector(`input[name="q${q.id}"]:checked`);
+                const allOptionsBox = document.querySelectorAll(`input[name="q${q.id}"] + .option-box`);
+                
+                document.querySelectorAll(`input[name="q${q.id}"]`).forEach(input => input.disabled = true);
+
+                let userAnsIndex = selected ? parseInt(selected.value) : -1;
+
+                allOptionsBox.forEach((box, index) => {
+                    if (index === q.correct) {
+                        box.classList.add('correct-ans'); 
+                    } else if (index === userAnsIndex && userAnsIndex !== q.correct) {
+                        box.classList.add('wrong-ans');
+                    }
+                });
+
+                if (userAnsIndex === q.correct) score++;
+            });
+
+            document.getElementById('submitBtnTop').style.display = 'none';
+            document.getElementById('submitBtnBottom').style.display = 'none';
+            
+            document.getElementById('scoreText').innerText = score;
+            if(score >= 60) document.getElementById('resultIcon').innerText = '🏆';
+            else if(score >= 40) document.getElementById('resultIcon').innerText = '🔥';
+            else document.getElementById('resultIcon').innerText = '💪';
+            
+            const modal = document.getElementById('resultModal');
+            const card = document.getElementById('resultCard');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                card.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeResultModal() {
+            const modal = document.getElementById('resultModal');
+            const card = document.getElementById('resultCard');
+            modal.classList.add('opacity-0');
+            card.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.onload = renderQuestions;
+    </script>
+</body>
+</html>

@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRACTICE TEST 1 - UNIT 2: CITY LIFE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            background-attachment: fixed;
+            color: #1f2937;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #c7c7cc; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a1a1aa; }
+
+        /* Glassmorphism elements */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Gen Z Border Style */
+        .genz-border {
+            border: 3px solid #1f2937;
+            box-shadow: 6px 6px 0px 0px #1f2937;
+            transition: all 0.2s ease;
+        }
+        
+        /* 3D Option button styling (MCQ) */
+        .option-label {
+            cursor: pointer;
+            display: block;
+            position: relative;
+            margin-top: 12px;
+            height: 100%;
+        }
+        .option-box {
+            border: 2px solid #1f2937;
+            border-radius: 0.75rem;
+            box-shadow: 3px 3px 0px 0px #1f2937;
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            background-color: white;
+        }
+        .option-label:hover .option-box {
+            transform: translate(-3px, -3px);
+            box-shadow: 6px 6px 0px 0px #1f2937;
+        }
+        .option-label:active .option-box {
+            transform: translate(2px, 2px);
+            box-shadow: 0px 0px 0px 0px #1f2937;
+        }
+        
+        /* Checked State Styling */
+        input[type="radio"]:checked + .option-box {
+            background-color: #1f2937 !important; 
+            border-color: #1f2937;
+            box-shadow: 4px 4px 0px 0px #a855f7 !important; 
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        input[type="radio"]:checked + .option-box .opt-text { color: white !important; }
+        input[type="radio"]:checked + .option-box .letter-circle {
+            background-color: #a855f7 !important;
+            color: white !important;
+            border-color: #1f2937;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.95); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        /* Result states after submission */
+        .correct-ans {
+            background-color: #10b981 !important;
+            border-color: #1f2937 !important;
+            box-shadow: 4px 4px 0px 0px #1f2937 !important;
+        }
+        .correct-ans .letter-circle { background-color: white !important; color: #10b981 !important; }
+        .correct-ans .opt-text { color: white !important; }
+
+        .wrong-ans {
+            background-color: #ef4444 !important;
+            border-color: #1f2937 !important;
+            box-shadow: 4px 4px 0px 0px #1f2937 !important;
+        }
+        .wrong-ans .letter-circle { background-color: white !important; color: #ef4444 !important; }
+        .wrong-ans .opt-text { color: white !important; }
+        
+        input[type="radio"]:disabled + .option-box { cursor: not-allowed; opacity: 0.9; }
+
+        /* Fill in the blank input styling */
+        .fill-input {
+            outline: none;
+            border-bottom: 3px solid #8b5cf6;
+            background-color: #f3f4f6;
+            padding: 4px 12px;
+            font-weight: 700;
+            color: #4c1d95;
+            text-align: center;
+            border-radius: 6px 6px 0 0;
+            transition: all 0.2s;
+            width: 180px;
+        }
+        .fill-input:focus {
+            background-color: #ede9fe;
+            border-bottom-color: #4c1d95;
+        }
+        .fill-input:disabled {
+            background-color: transparent;
+            cursor: not-allowed;
+        }
+        .fill-correct {
+            border-bottom-color: #10b981 !important;
+            color: #10b981 !important;
+        }
+        .fill-wrong {
+            border-bottom-color: #ef4444 !important;
+            color: #ef4444 !important;
+            text-decoration: line-through;
+        }
+        .correct-text {
+            color: #10b981;
+            font-weight: bold;
+            margin-left: 8px;
+            font-size: 0.9em;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* Image Box styling for Ex 5 */
+        .image-card {
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+            border: 3px solid #1f2937;
+            border-radius: 1rem;
+            box-shadow: 4px 4px 0px 0px #1f2937;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .emoji-art {
+            font-size: 4rem;
+            filter: drop-shadow(2px 4px 0px rgba(0,0,0,0.2));
+            margin-bottom: 1rem;
+        }
+
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col relative">
+
+    <div id="startOverlay" class="fixed inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-md">
+        <div class="bg-white p-8 md:p-12 rounded-3xl genz-border text-center max-w-lg mx-4">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500 mb-4">
+                ✨ Sẵn sàng chưa?
+            </h1>
+            <p class="text-gray-600 mb-8 text-lg">Bài thi tổng ôn Unit 2: City Life. Thời gian làm bài là <b>60 phút</b>.<br>Đề gồm <b>145 câu</b> (Trắc nghiệm + Điền từ tự luận + Nhìn hình đoán chữ).</p>
+            <button onclick="startTest()" class="w-full bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-600 hover:to-fuchsia-600 text-white font-bold py-4 px-8 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-200 text-xl genz-border">
+                Bắt Đầu Làm Bài 🚀
+            </button>
+        </div>
+    </div>
+
+    <header class="sticky top-0 z-40 glass-panel border-b border-gray-200 px-4 py-3 shadow-sm">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">📝</span>
+                <h1 class="font-bold text-lg hidden sm:block bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">Tổng Ôn Sau Cùng - Unit 2</h1>
+            </div>
+            <div class="flex items-center gap-4">
+                <div id="timerBox" class="bg-indigo-100 text-indigo-800 font-mono font-bold text-xl px-4 py-2 rounded-xl border-2 border-indigo-200 flex items-center gap-2 transition-colors">
+                    ⏳ <span id="timeDisplay">60:00</span>
+                </div>
+                <button onclick="submitTest()" id="submitBtnTop" class="bg-gray-900 hover:bg-gray-800 text-white font-bold py-2 px-6 rounded-xl transition-colors hidden sm:block">
+                    Nộp Bài
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto w-full px-4 py-8">
+        
+        <div class="mb-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2 uppercase tracking-wide">Unit 2: City Life</h2>
+            <p class="text-gray-500 font-medium text-lg">Trắc nghiệm - Điền từ - Nhìn hình đoán chữ</p>
+        </div>
+
+        <form id="testForm" onsubmit="event.preventDefault(); submitTest();">
+            
+            <div id="q-container" class="space-y-12">
+                <!-- Sections will be injected here via JS -->
+            </div>
+
+            <div class="text-center mt-12 mb-8">
+                <button type="submit" id="submitBtnBottom" class="bg-gray-900 hover:bg-gray-800 text-white font-bold py-4 px-12 rounded-2xl shadow-xl transform hover:-translate-y-1 transition-all duration-200 text-xl genz-border">
+                    Nộp Bài & Xem Điểm ✨
+                </button>
+            </div>
+
+        </form>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 py-6 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500 text-xl">Idea for Design: Mr Hoa Van!</p>
+            <p class="text-gray-400 text-sm mt-1">© 2026 - Tinh Hoa Dự Đoán THPT</p>
+        </div>
+    </footer>
+
+    <div id="resultModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white p-8 md:p-12 rounded-3xl genz-border text-center max-w-md mx-4 transform scale-95 transition-transform duration-300" id="resultCard">
+            <div class="text-6xl mb-4" id="resultIcon">🎉</div>
+            <h2 class="text-3xl font-extrabold mb-2 text-gray-800">Điểm số của bạn</h2>
+            <div class="inline-block bg-gray-100 p-6 rounded-2xl mb-6 genz-border">
+                <p class="text-6xl font-black text-indigo-600"><span id="scoreText">0</span><span class="text-3xl text-gray-500">/145</span></p>
+            </div>
+            <p class="text-gray-600 mb-8 font-medium text-lg">Kết quả bài làm đã được hệ thống ghi nhận. Cuộn xuống để xem lỗi sai!</p>
+            <button onclick="closeResultModal()" class="w-full bg-indigo-600 text-white font-bold py-4 px-6 rounded-xl hover:bg-indigo-700 transition-colors text-lg genz-border">
+                Xem Lại Bài Làm
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // QUESTION DATA - 145 CÂU HỎI (UNIT 2)
+        const sectionsData = [
+            {
+                title: "A. PHONETIC",
+                subtitle: "Exercise 1: Mark the letter A, B, C, or D to indicate the word whose underlined part differs from the other three in pronunciation.",
+                type: "mcq",
+                questions: [
+                    { id: 1, qText: "A. cond<u>u</u>ct B. diffic<u>u</u>lt C. st<u>u</u>ck D. f<u>u</u>n", options: ["conduct", "difficult", "stuck", "fun"], correct: 1 },
+                    { id: 2, qText: "A. t<u>ow</u>n B. c<u>ow</u> C. sn<u>ow</u> D. br<u>ow</u>n", options: ["town", "cow", "snow", "brown"], correct: 2 },
+                    { id: 3, qText: "A. c<u>o</u>nstruction B. p<u>o</u>pular C. regul<u>a</u>r D. fabul<u>ou</u>s", options: ["construction", "popular", "regular", "fabulous"], correct: 0 },
+                    { id: 4, qText: "A. m<u>e</u>tropolitan B. p<u>o</u>lluted C. f<u>o</u>rbidden D. aff<u>o</u>rdable", options: ["metropolitan", "polluted", "forbidden", "affordable"], correct: 0 },
+                    { id: 5, qText: "A. cr<u>o</u>p B. exp<u>o</u>rt C. sh<u>o</u>rtage D. res<u>o</u>rt", options: ["crop", "export", "shortage", "resort"], correct: 0 },
+                    { id: 6, qText: "A. seri<u>ou</u>s B. th<u>ou</u>sand C. f<u>ou</u>nd D. ar<u>ou</u>nd", options: ["serious", "thousand", "found", "around"], correct: 0 },
+                    { id: 7, qText: "A. fea<u>t</u>ure B. cul<u>t</u>ure C. sugges<u>t</u>ion D. sta<u>t</u>ue", options: ["feature", "culture", "suggestion", "statue"], correct: 2 },
+                    { id: 8, qText: "A. fam<u>ous</u> B. nerv<u>ous</u> C. danger<u>ous</u> D. m<u>oun</u>tain", options: ["famous", "nervous", "dangerous", "mountain"], correct: 3 },
+                    { id: 9, qText: "A. fl<u>oo</u>d B. g<u>oo</u>d C. f<u>oo</u>t D. l<u>oo</u>k", options: ["flood", "good", "foot", "look"], correct: 0 },
+                    { id: 10, qText: "A. f<u>a</u>bulous B. p<u>a</u>cked C. <u>a</u>sset D. can<u>a</u>l", options: ["fabulous", "packed", "asset", "canal"], correct: 3 },
+                    { id: 11, qText: "A. <u>h</u>ygiene B. <u>h</u>eritage C. <u>h</u>otel D. <u>h</u>our", options: ["hygiene", "heritage", "hotel", "hour"], correct: 3 },
+                    { id: 12, qText: "A. tr<u>a</u>m B. c<u>a</u>rry C. s<u>a</u>fe D. tr<u>a</u>ffic", options: ["tram", "carry", "safe", "traffic"], correct: 2 },
+                    { id: 13, qText: "A. metr<u>o</u> B. <u>o</u>cean C. c<u>o</u>smopolitan D. l<u>o</u>cal", options: ["metro", "ocean", "cosmopolitan", "local"], correct: 2 },
+                    { id: 14, qText: "A. spr<u>ea</u>d B. dis<u>ea</u>se C. h<u>ea</u>lth D. pl<u>ea</u>sure", options: ["spread", "disease", "health", "pleasure"], correct: 1 },
+                    { id: 15, qText: "A. confl<u>i</u>ct B. <u>i</u>tchy C. rel<u>i</u>able D. determ<u>i</u>ne", options: ["conflict", "itchy", "reliable", "determine"], correct: 2 }
+                ]
+            },
+            {
+                title: "Exercise 2: Stress",
+                subtitle: "Mark the letter A, B, C, or D to indicate the word that differs from the other three in the position of primary stress.",
+                type: "mcq",
+                questions: [
+                    { id: 16, qText: "", options: ["populous", "determine", "forbidden", "delicious"], correct: 0 },
+                    { id: 17, qText: "", options: ["determine", "pagoda", "fabulous", "convenient"], correct: 2 },
+                    { id: 18, qText: "", options: ["capital", "gallery", "harbour", "museum"], correct: 3 },
+                    { id: 19, qText: "", options: ["metropolitan", "fascinatingly", "multicultural", "recreational"], correct: 1 },
+                    { id: 20, qText: "", options: ["metropolitan", "university", "organisation", "multicultural"], correct: 2 },
+                    { id: 21, qText: "", options: ["locate", "mingle", "develop", "attract"], correct: 1 },
+                    { id: 22, qText: "", options: ["skyscraper", "convenience", "resident", "vehicle"], correct: 1 },
+                    { id: 23, qText: "", options: ["fascinate", "expensive", "restaurant", "difference"], correct: 1 },
+                    { id: 24, qText: "", options: ["historical", "embroidery", "authority", "architecture"], correct: 3 },
+                    { id: 25, qText: "", options: ["affordable", "environment", "variety", "indicator"], correct: 3 },
+                    { id: 26, qText: "", options: ["conduct", "ancient", "drawback", "feature"], correct: 0 },
+                    { id: 27, qText: "", options: ["handicraft", "lacquerware", "artisan", "pottery"], correct: 2 },
+                    { id: 28, qText: "", options: ["intelligence", "facility", "development", "education"], correct: 3 },
+                    { id: 29, qText: "", options: ["bustling", "advance", "itchy", "pricey"], correct: 1 }
+                ]
+            },
+            {
+                title: "B. VOCABULARY AND GRAMMAR",
+                subtitle: "Exercise 3: Circle the odd one out.",
+                type: "mcq",
+                questions: [
+                    { id: 30, qText: "", options: ["tram", "bus", "metro", "city"], correct: 3 },
+                    { id: 31, qText: "", options: ["busy", "crowd", "noisy", "modern"], correct: 1 },
+                    { id: 32, qText: "", options: ["underground", "restaurant", "shop", "cinema"], correct: 0 },
+                    { id: 33, qText: "", options: ["downtown", "suburb", "liveable", "town"], correct: 2 },
+                    { id: 34, qText: "", options: ["amenity", "bustling", "dangerous", "convenient"], correct: 0 },
+                    { id: 35, qText: "", options: ["taxi", "around", "train", "car"], correct: 1 },
+                    { id: 36, qText: "", options: ["expensive", "quiet", "liveable", "building"], correct: 3 },
+                    { id: 37, qText: "", options: ["down", "get", "come", "go"], correct: 0 },
+                    { id: 38, qText: "", options: ["nearer", "smaller", "worker", "taller"], correct: 2 },
+                    { id: 39, qText: "", options: ["polluted", "noise", "light", "water"], correct: 0 }
+                ]
+            },
+            {
+                title: "Exercise 4: Fill in the Blanks",
+                subtitle: "Fill in each blank with ONE appropriate word or phrase from the box. <br><div class='mt-3 flex flex-wrap gap-2 justify-center'><span class='px-3 py-1 bg-white border border-gray-300 rounded-md shadow-sm font-semibold'>bustling</span><span class='px-3 py-1 bg-white border border-gray-300 rounded-md shadow-sm font-semibold'>traffic jams</span><span class='px-3 py-1 bg-white border border-gray-300 rounded-md shadow-sm font-semibold'>process</span><span class='px-3 py-1 bg-white border border-gray-300 rounded-md shadow-sm font-semibold'>itchy</span><span class='px-3 py-1 bg-white border border-gray-300 rounded-md shadow-sm font-semibold'>pricey</span><span class='px-3 py-1 bg-white border border-gray-300 rounded-md shadow-sm font-semibold'>entertainment center</span><span class='px-3 py-1 bg-white border border-gray-300 rounded-md shadow-sm font-semibold'>leftovers</span><span class='px-3 py-1 bg-white border border-gray-300 rounded-md shadow-sm font-semibold'>construction sites</span></div>",
+                type: "fill",
+                questions: [
+                    { id: 40, qText: "1. ___ are a common sight in bustling cities, with cranes and workers building new skyscrapers.", correct: "construction sites" },
+                    { id: 41, qText: "2. After a long day at work, people often unwind by visiting an ___ where they can enjoy movies, games, or live performances.", correct: "entertainment center" },
+                    { id: 42, qText: "3. Instead of wasting food, it's better to save ___ from meals and use them for another day.", correct: "leftovers" },
+                    { id: 43, qText: "4. Dining out in the city can be ___, especially at upscale restaurants with gourmet cuisine.", correct: "pricey" },
+                    { id: 44, qText: "5. Rush hour brings heavy ___, causing delays for commuters trying to get home.", correct: "traffic jams" }
+                ]
+            },
+            {
+                title: "Exercise 5: Look at the photos and type the correct word/phrase",
+                subtitle: "Type the correct word/phrase under each picture. (Hint: metro, itchy eyes, concrete jungle, congested road, construction site, entertainment centre, sky train, dusty)",
+                type: "image-fill",
+                questions: [
+                    { id: 45, emoji: "🎡🎪", label: "Picture 1 (Amusement/Fun place)", correct: "entertainment centre" },
+                    { id: 46, emoji: "🏗️🚧", label: "Picture 2 (Building area)", correct: "construction site" },
+                    { id: 47, emoji: "💨😷", label: "Picture 3 (Air filled with dirt)", correct: "dusty" },
+                    { id: 48, emoji: "🏙️🏢", label: "Picture 4 (City packed with buildings)", correct: "concrete jungle" },
+                    { id: 49, emoji: "🚝🛤️", label: "Picture 5 (Elevated train)", correct: "sky train" },
+                    { id: 50, emoji: "😫👁️", label: "Picture 6 (Rubbing eyes due to allergy)", correct: "itchy eyes" },
+                    { id: 51, emoji: "🚗🚕🚙", label: "Picture 7 (Traffic jam)", correct: "congested road" },
+                    { id: 52, emoji: "🚇🚉", label: "Picture 8 (Underground train)", correct: "metro" }
+                ]
+            },
+            {
+                title: "Exercise 6: Complete the sentences",
+                subtitle: "Complete the sentences with the words/ phrases from Exercise 5.",
+                type: "fill",
+                questions: [
+                    { id: 53, qText: "1. I wear a mask to protect myself from breathing in the ___ air in the city.", correct: "dusty" },
+                    { id: 54, qText: "2. Wearing contact lenses sometimes leads to ___ by the end of the day.", correct: "itchy eyes" },
+                    { id: 55, qText: "3. The ___ is an underground railway system in a city, often used for public transportation.", correct: "metro" },
+                    { id: 56, qText: "4. The city is often called a ___ because of all the tall buildings.", correct: "concrete jungle" },
+                    { id: 57, qText: "5. My dad is a construction worker, so he often visits the ___.", correct: "construction site" },
+                    { id: 58, qText: "6. The ___ is a fun place to hang out with friends and family.", correct: "entertainment centre" },
+                    { id: 59, qText: "7. The ___ is an elevated train system that runs above the city streets.", correct: "sky train" },
+                    { id: 60, qText: "8. Manh feels stressed when he has to drive on the ___.", correct: "congested road" }
+                ]
+            },
+            {
+                title: "Exercise 7: Fill in the Blanks",
+                subtitle: "Fill in each blank with ONE suitable word or phrase from the box. <br><div class='mt-3 flex flex-wrap gap-2 justify-center'><span class='px-3 py-1 bg-white border border-gray-300 rounded-md shadow-sm font-semibold'>green spaces</span><span class='px-3 py-1 bg-white border border-gray-300 rounded-md shadow-sm font-semibold'>leftovers</span><span class='px-3 py-1 bg-white border border-gray-300 rounded-md shadow-sm font-semibold'>livable</span><span class='px-3 py-1 bg-white border border-gray-300 rounded-md shadow-sm font-semibold'>traffic lights</span><span class='px-3 py-1 bg-white border border-gray-300 rounded-md shadow-sm font-semibold'>food waste</span><span class='px-3 py-1 bg-white border border-gray-300 rounded-md shadow-sm font-semibold'>rush hour</span><span class='px-3 py-1 bg-white border border-gray-300 rounded-md shadow-sm font-semibold'>city center</span><span class='px-3 py-1 bg-white border border-gray-300 rounded-md shadow-sm font-semibold'>cafeteria</span><span class='px-3 py-1 bg-white border border-gray-300 rounded-md shadow-sm font-semibold'>construction site</span><span class='px-3 py-1 bg-white border border-gray-300 rounded-md shadow-sm font-semibold'>traffic congestion</span></div>",
+                type: "fill",
+                questions: [
+                    { id: 61, qText: "1. Some restaurants donate their ___ to local shelters instead of throwing it away.", correct: "food waste" },
+                    { id: 62, qText: "2. Many people enjoy spending time relaxing in the city's ___ like parks and gardens.", correct: "green spaces" },
+                    { id: 63, qText: "3. The high cost of rent makes it difficult for many young professionals to find a ___ apartment in the city center.", correct: "livable" },
+                    { id: 64, qText: "4. Every morning during ___, the streets are packed with cars and buses.", correct: "rush hour" },
+                    { id: 65, qText: "5. My friend's apartment building is under renovation, so they are currently living in a temporary place until the ___ is finished.", correct: "construction site" },
+                    { id: 66, qText: "6. Many office buildings have a ___ where employees can go to buy and eat lunch.", correct: "cafeteria" },
+                    { id: 67, qText: "7. I made too much pasta last night. I'll pack the ___ for lunch tomorrow.", correct: "leftovers" },
+                    { id: 68, qText: "8. ___ is the heart of the city, with high activity, shops, and businesses.", correct: "city center" },
+                    { id: 69, qText: "9. We need to wait patiently for the ___ to turn green before crossing the street.", correct: "traffic lights" },
+                    { id: 70, qText: "10. The city is planning to build a new subway line to help reduce ___ during rush hour.", correct: "traffic congestion" }
+                ]
+            },
+            {
+                title: "Exercise 8: Multiple Choice",
+                subtitle: "Mark the letter A, B, C, or D to indicate the correct answer to each of the following questions.",
+                type: "mcq",
+                questions: [
+                    { id: 71, qText: "1. The ___ the exam is, the less confident I feel.", options: ["more difficulter", "difficulter", "difficult", "more difficult"], correct: 3 },
+                    { id: 72, qText: "2. The more colourful the flowers are, the ___ the garden looks.", options: ["prettyer", "prettier", "pretty", "more pretty"], correct: 1 },
+                    { id: 73, qText: "3. The ___ the rain is, the wetter she becomes.", options: ["heavier", "heavyer", "more heavy", "more"], correct: 0 },
+                    { id: 74, qText: "4. The hotter the weather is, the ___ I feel.", options: ["comfortablest", "less comfortabler", "comfortabler", "less comfortable"], correct: 3 },
+                    { id: 75, qText: "5. The more crowded the restaurant is, the ___ we have to wait.", options: ["more long", "longer", "more longer", "long"], correct: 1 },
+                    { id: 76, qText: "6. The old library was quite ___, but they recently renovated it.", options: ["pricey", "reliable", "dusty", "quiet"], correct: 2 },
+                    { id: 77, qText: "7. Eating out in this city can be quite ___, especially at fancy restaurants.", options: ["affordable", "pricey", "interesting", "reasonable"], correct: 1 },
+                    { id: 78, qText: "8. The city offers a ___ lifestyle with everything within reach.", options: ["crowded", "noisy", "boring", "convenient"], correct: 3 },
+                    { id: 79, qText: "9. During ___ hour, the subway is always packed with commuters.", options: ["rush", "low", "crowded", "liveable"], correct: 0 },
+                    { id: 80, qText: "10. New York City is often referred to as a ___ due to its tall buildings and busy streets.", options: ["public amenity", "entertainment center", "concrete jungle", "site"], correct: 2 },
+                    { id: 81, qText: "11. The more invaluable world heritages are to humanity, ___", options: ["the more protected and preserving they are", "the more they are protected and preserved", "the more they have people protect and preserve", "the more people make them protect and preserve"], correct: 1 },
+                    { id: 82, qText: "12. ___ the temperature, ___ water turns into steam.", options: ["Higher/ faster the", "The higher/ the faster", "The more higher/ the faster", "The higher/ the fast"], correct: 1 },
+                    { id: 83, qText: "13. The older you are, ___", options: ["the more you may become worried", "the more worried you may become", "the more worry you may become", "you may become more worried"], correct: 1 },
+                    { id: 84, qText: "14. The more challenging the exercises are, ___ we feel.", options: ["the less bored", "the least bored", "the less boring", "the least boring"], correct: 0 },
+                    { id: 85, qText: "15. The ___ you encounter failure, the more confident you are.", options: ["more frequently", "as frequently", "most frequent", "more frequent"], correct: 0 },
+                    { id: 86, qText: "16. The ___ the mountain is, the harder it is to climb.", options: ["taller", "more tall", "tall", "more taller"], correct: 0 },
+                    { id: 87, qText: "17. The closer the deadline gets, the ___ John feels.", options: ["stressed", "more stresseder", "more stressed", "stresseder"], correct: 2 },
+                    { id: 88, qText: "18. The darker the night is, the ___ the shadows become.", options: ["scaryer", "scarier", "more scarier", "scary"], correct: 1 },
+                    { id: 89, qText: "19. The busier the street is, the less ___ the walk becomes.", options: ["enjoyablest", "more enjoyable", "enjoyabler", "enjoyable"], correct: 3 },
+                    { id: 90, qText: "20. The clearer the sky is, the ___ the stars shine at night.", options: ["brighter", "bright", "more brightest", "more brighter"], correct: 0 },
+                    { id: 91, qText: "21. Living in this city is much ___ because of low crime rate.", options: ["more dangerous", "quieter", "safer", "more beautiful"], correct: 2 },
+                    { id: 92, qText: "22. I hope that the ___ underground train system in Ho Chi Minh City will run soon.", options: ["metro", "road", "car", "tram"], correct: 0 },
+                    { id: 93, qText: "23. In the old days, Ha Noi was not ___ as it is now.", options: ["full", "short", "crowded", "high"], correct: 2 },
+                    { id: 94, qText: "24. Many people in this neighbourhood complain about the lack of ___ amenities.", options: ["private", "public", "popular", "common"], correct: 1 },
+                    { id: 95, qText: "25. The main attraction of that mountainous province is the ___ market.", options: ["liveable", "boring", "vibrant", "bustling"], correct: 3 },
+                    { id: 96, qText: "26. Unfortunately, this area has a ___", options: ["low noise level", "high crime rate", "clean environment", "high safety level"], correct: 1 },
+                    { id: 97, qText: "27. Be cautious of ___ in crowded areas.", options: ["pickpocketing", "crime-free", "safety", "security"], correct: 0 },
+                    { id: 98, qText: "28. Despite the noise, this neighborhood is quite ___", options: ["dangerous", "liveable", "silent", "careful"], correct: 1 },
+                    { id: 99, qText: "29. The ___ metro system is efficient for daily commuting.", options: ["leftover", "construction", "underground", "traffic jam"], correct: 2 },
+                    { id: 100, qText: "30. Many families prefer to live in the quieter ___", options: ["suburbs", "centers", "amenities", "transportation"], correct: 0 },
+                    { id: 101, qText: "31. The more tired she is, the less ___ she becomes.", options: ["more patient", "patienter", "patient", "most patient"], correct: 2 },
+                    { id: 102, qText: "32. The ___ the movie is, the ___ I feel.", options: ["long/ more bored", "more long/ more bored", "longer/boreder", "longer/more bored"], correct: 3 },
+                    { id: 103, qText: "33. The ___ the computer is, the ___ the price you have to pay.", options: ["more modern/higher", "moderner/higher", "more modern/ more high", "moderner/ more high"], correct: 0 },
+                    { id: 104, qText: "34. The ___ the music is, the less ___ my brother becomes.", options: ["louder/ more focused", "more loud/ focused", "louder/ focused", "more loud/ focuseder"], correct: 2 },
+                    { id: 105, qText: "35. The ___ the weather is, the ___ clothes you need to wear.", options: ["colder/ warmer", "colder/more warm", "more cold/ warmer", "more cold/warm"], correct: 0 },
+                    { id: 106, qText: "36. The new ___ features a cinema, bowling alley, and arcade.", options: ["traffic jam", "entertainment centre", "concrete jungle", "downtown"], correct: 1 },
+                    { id: 107, qText: "37. Good ___ practices are essential to prevent the spread of diseases.", options: ["construction", "hygiene", "leftover", "congested road"], correct: 1 },
+                    { id: 108, qText: "38. My allergies cause ___ during springtime.", options: ["road dust", "underground system", "itchy eyes", "construction site"], correct: 2 },
+                    { id: 109, qText: "39. ___ is a common issue in large cities.", options: ["Traffic light", "Traffic flow", "Traffic safety", "Traffic congestion"], correct: 3 },
+                    { id: 110, qText: "40. The ___ streets of downtown are filled with people rushing to work.", options: ["bustling", "special", "empty", "quiet"], correct: 0 },
+                    { id: 111, qText: "41. I ___ a fever last night.", options: ["get around", "hang out", "came down with", "run out of"], correct: 2 },
+                    { id: 112, qText: "42. The city government aims to ___ environmental initiatives.", options: ["hand down", "carry out", "give up", "get around"], correct: 1 },
+                    { id: 113, qText: "43. Let's ___ at the local café this weekend!", options: ["get on with", "hang out", "come down", "cut down on"], correct: 1 },
+                    { id: 114, qText: "44. Unfortunately, I ___ a cold last week.", options: ["handed down", "ran out of", "came down with", "gave up"], correct: 2 },
+                    { id: 115, qText: "45. I need to ___ sugary snacks for better health.", options: ["run out of", "cut down on", "get on with", "take care of"], correct: 1 },
+                    { id: 116, qText: "46. We plan to carry ___ a survey to gather opinions from the community.", options: ["of", "around", "out", "to"], correct: 2 },
+                    { id: 117, qText: "47. My friends often get ___ the city by motorbike every Sunday.", options: ["for", "on", "with", "around"], correct: 3 },
+                    { id: 118, qText: "48. They are trying to cut down ___ unnecessary expenses to save money for their vacation.", options: ["on", "in", "to", "out"], correct: 0 },
+                    { id: 119, qText: "49. Mark prefers hanging out ___ his siblings rather than playing alone.", options: ["with", "on", "in", "to"], correct: 0 },
+                    { id: 120, qText: "50. Tom came down ___ food poisoning after eating at that new restaurant.", options: ["of", "on", "to", "with"], correct: 3 },
+                    { id: 121, qText: "51. My mother always picks me ___ after school.", options: ["by", "up", "to", "with"], correct: 1 },
+                    { id: 122, qText: "52. Lan visited her grandparents in another city ___ plane last month.", options: ["at", "to", "for", "by"], correct: 3 },
+                    { id: 123, qText: "53. We need to find ___ where the nearest supermarket is.", options: ["out", "to", "for", "of"], correct: 0 },
+                    { id: 124, qText: "54. I need to take care ___ my little brother while my parents are out.", options: ["on", "of", "in", "up"], correct: 1 },
+                    { id: 125, qText: "55. They always hang ___ with each other during lunch breaks.", options: ["at", "to", "out", "in"], correct: 2 },
+                    { id: 126, qText: "56. He spent a year in India and loves spicy food. ___ the food is, ___ he likes it.", options: ["The hotter/ the more and more", "The hotter/ the more", "The more and more hot/ the more", "The hottest/ the most"], correct: 1 },
+                    { id: 127, qText: "57. ___ he drank, ___ he became.", options: ["More/ more violent", "The most/ the most violent", "The more/ the more violent", "The less/ less violent"], correct: 2 },
+                    { id: 128, qText: "58. Earning money has always been the thing that pleases him most. ___ he becomes, ___ he is.", options: ["The more rich/ the more happy", "The richest/ the happiest", "The richer/ the happier", "Richer and richer/ happier and happier"], correct: 2 },
+                    { id: 129, qText: "59. ___ you study for these exams, ___ you will do.", options: ["The harder/ the better", "The more/ the much", "The hardest/ the best", "The more hard/ the more good"], correct: 0 },
+                    { id: 130, qText: "60. My neighbor is driving me mad! It seems that ___ it is at night, ___ he plays his music!", options: ["the less/ the more loud", "the less/less", "the more late/ the more loudly", "the later/ the louder"], correct: 3 },
+                    { id: 131, qText: "61. There are so many high buildings in New York City that it looks like a ___", options: ["public transport", "traffic jam", "concrete jungle", "city centre"], correct: 2 },
+                    { id: 132, qText: "62. Hong Kong is becoming a concrete ___ as it has too many buildings.", options: ["forest", "jungle", "acne", "hygiene"], correct: 1 },
+                    { id: 133, qText: "63. The library is very ___. I do not think people have cleaned it recently.", options: ["bustling", "dense", "dusty", "itchy"], correct: 2 },
+                    { id: 134, qText: "64. The construction ___ next door has been noisy all week.", options: ["metro", "tram", "underground", "site"], correct: 3 },
+                    { id: 135, qText: "65. The theater in the ___ area hosts fantastic performances.", options: ["downtown", "hygiene", "rural", "underground"], correct: 0 },
+                    { id: 136, qText: "66. The ___ of having shops nearby makes life easier.", options: ["inconvenient", "difficulty", "convenience", "unreliable"], correct: 2 },
+                    { id: 137, qText: "67. To stay healthy, I try to ___ processed foods.", options: ["avoid", "transport", "widen", "complete"], correct: 0 },
+                    { id: 138, qText: "68. The city council plans to ___ infrastructure improvements.", options: ["hand down", "carry out", "get around", "look after"], correct: 1 },
+                    { id: 139, qText: "69. It's easy to ___ the city using public transportation.", options: ["carry out", "find out", "get around", "come back"], correct: 2 },
+                    { id: 140, qText: "70. To save money, I try to ___ unnecessary expenses.", options: ["come down with", "cut down on", "hang out with", "get on with"], correct: 1 },
+                    { id: 141, qText: "71. The city park feels like an oasis of ___ green space.", options: ["noisy", "careful", "safe", "dangerous"], correct: 2 },
+                    { id: 142, qText: "72. The cityscape is a mix of historic and ___ architecture.", options: ["crowded", "modern", "boring", "noisy"], correct: 1 },
+                    { id: 143, qText: "73. The city streets are often ___ during rush hour.", options: ["itchy", "open", "congested", "pricey"], correct: 2 },
+                    { id: 144, qText: "74. My skin gets ___ when I'm stressed.", options: ["itchy", "narrow", "perfect", "clear"], correct: 0 },
+                    { id: 145, qText: "75. Make sure to cook chicken ___ to avoid food poisoning.", options: ["properly", "shortly", "narrowly", "especially"], correct: 0 }
+                ]
+            }
+        ];
+
+        function renderQuestions() {
+            const optionBgColors = ['bg-[#ffe4e6] hover:bg-[#fecdd3]', 'bg-[#e0e7ff] hover:bg-[#c7d2fe]', 'bg-[#fef9c3] hover:bg-[#fef08a]', 'bg-[#dcfce7] hover:bg-[#bbf7d0]'];
+            const container = document.getElementById(`q-container`);
+            
+            sectionsData.forEach((sec, sIdx) => {
+                // Render Section Header
+                const secHeader = document.createElement('div');
+                secHeader.className = "col-span-full mt-8 mb-4";
+                secHeader.innerHTML = `
+                    <h2 class="text-2xl font-black text-indigo-700 bg-indigo-100 inline-block px-6 py-2 rounded-2xl genz-border uppercase">${sec.title}</h2>
+                    <p class="text-gray-600 font-medium text-lg mt-3 bg-white p-4 rounded-xl border border-gray-200">${sec.subtitle}</p>
+                `;
+                container.appendChild(secHeader);
+
+                // Render Grid Wrapper for Questions
+                const gridWrapper = document.createElement('div');
+                // Use a different grid layout for image-fill to make them bigger
+                gridWrapper.className = sec.type === 'image-fill' ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 col-span-full" : "grid grid-cols-1 lg:grid-cols-2 gap-6 col-span-full";
+                
+                sec.questions.forEach((q) => {
+                    const qDiv = document.createElement('div');
+                    
+                    if (sec.type === "mcq") {
+                        qDiv.className = "bg-white rounded-3xl p-6 shadow-sm border-2 border-gray-100 hover:shadow-md transition h-full flex flex-col";
+                        let optionsHtml = q.options.map((opt, i) => `
+                            <label class="option-label flex-grow">
+                                <input type="radio" name="q${q.id}" value="${i}" class="peer hidden">
+                                <div class="option-box p-3 flex items-center gap-3 ${optionBgColors[i]}">
+                                    <span class="letter-circle w-8 h-8 rounded-full bg-white flex items-center justify-center font-black text-sm shrink-0 transition-colors border-2 border-gray-900 text-gray-900">${String.fromCharCode(65 + i)}</span>
+                                    <span class="opt-text text-[15px] font-semibold text-gray-800 transition-colors leading-snug">${opt}</span>
+                                </div>
+                            </label>
+                        `).join('');
+
+                        qDiv.innerHTML = `
+                            <div class="mb-5 flex-grow">
+                                <h4 class="font-black text-xl text-indigo-700 mb-2">Question ${q.id}.</h4>
+                                ${q.qText ? `<p class="text-gray-800 font-semibold text-[1.05rem] leading-relaxed">${q.qText}</p>` : ''}
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-auto">
+                                ${optionsHtml}
+                            </div>
+                        `;
+                    } 
+                    else if (sec.type === "fill") {
+                        qDiv.className = "bg-white rounded-2xl p-6 shadow-sm border-2 border-gray-100 flex items-center";
+                        let formattedText = q.qText.replace("___", `<input type="text" data-id="${q.id}" class="fill-input" placeholder="Type here...">`);
+                        qDiv.innerHTML = `<p class="text-gray-800 font-semibold text-lg leading-relaxed flex-grow leading-10">${formattedText}<span id="feedback-${q.id}"></span></p>`;
+                    }
+                    else if (sec.type === "image-fill") {
+                        qDiv.className = "bg-white rounded-2xl p-4 shadow-sm border-2 border-gray-100 flex flex-col items-center gap-4";
+                        qDiv.innerHTML = `
+                            <div class="image-card w-full aspect-square">
+                                <div class="emoji-art">${q.emoji}</div>
+                                <span class="text-sm font-bold text-gray-700 uppercase tracking-widest bg-white/50 px-2 py-1 rounded-md border border-gray-400">${q.label}</span>
+                            </div>
+                            <input type="text" data-id="${q.id}" class="fill-input w-full" placeholder="Type the word...">
+                            <span id="feedback-${q.id}" class="w-full text-center"></span>
+                        `;
+                    }
+                    
+                    gridWrapper.appendChild(qDiv);
+                });
+                
+                container.appendChild(gridWrapper);
+            });
+        }
+
+        // TIMER LOGIC
+        let timeLeft = 3600; // 60 minutes
+        let timerInterval;
+        let audioCtx;
+        let isSubmitted = false;
+
+        function startTest() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            document.getElementById('startOverlay').style.display = 'none';
+            timerInterval = setInterval(() => {
+                if(isSubmitted) return;
+                timeLeft--;
+                updateTimerDisplay();
+
+                if (timeLeft === 60) {
+                    playAlarm();
+                    document.getElementById('timerBox').classList.replace('bg-indigo-100', 'bg-red-100');
+                    document.getElementById('timerBox').classList.replace('text-indigo-800', 'text-red-600');
+                    document.getElementById('timerBox').classList.replace('border-indigo-200', 'border-red-300');
+                    document.getElementById('timerBox').classList.add('animate-pulse');
+                }
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitTest();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            let m = Math.floor(timeLeft / 60);
+            let s = timeLeft % 60;
+            document.getElementById('timeDisplay').innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+
+        function playAlarm() {
+            if(!audioCtx) return;
+            for(let i=0; i<3; i++) {
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(880, audioCtx.currentTime + i*0.4); 
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime + i*0.4);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i*0.4 + 0.3);
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                osc.start(audioCtx.currentTime + i*0.4);
+                osc.stop(audioCtx.currentTime + i*0.4 + 0.3);
+            }
+        }
+
+        // SUBMIT LOGIC 
+        function submitTest() {
+            if(isSubmitted) return;
+            isSubmitted = true;
+            clearInterval(timerInterval);
+            
+            let score = 0;
+            let totalQuestions = 0;
+            
+            sectionsData.forEach(sec => {
+                sec.questions.forEach(q => {
+                    totalQuestions++;
+                    
+                    if (sec.type === 'mcq') {
+                        const selected = document.querySelector(`input[name="q${q.id}"]:checked`);
+                        const allOptionsBox = document.querySelectorAll(`input[name="q${q.id}"] + .option-box`);
+                        document.querySelectorAll(`input[name="q${q.id}"]`).forEach(input => input.disabled = true);
+
+                        let userAnsIndex = selected ? parseInt(selected.value) : -1;
+                        allOptionsBox.forEach((box) => {
+                            box.classList.remove('hover:bg-[#fecdd3]', 'hover:bg-[#c7d2fe]', 'hover:bg-[#fef08a]', 'hover:bg-[#bbf7d0]');
+                        });
+                        if (userAnsIndex === q.correct) score++;
+                        // For MCQ we just score silently for privacy/security as per previous instructions
+                    } 
+                    else if (sec.type === 'fill' || sec.type === 'image-fill') {
+                        const inputField = document.querySelector(`input[data-id="${q.id}"]`);
+                        inputField.disabled = true;
+                        const userAnswer = inputField.value.trim().toLowerCase();
+                        const feedbackSpan = document.getElementById(`feedback-${q.id}`);
+                        
+                        // Check if answer is correct (allowing some flexibility with spaces)
+                        const correctAnswer = q.correct.toLowerCase();
+                        
+                        if (userAnswer === correctAnswer) {
+                            score++;
+                            inputField.classList.add('fill-correct');
+                            feedbackSpan.innerHTML = `<span class="correct-text"> ✔</span>`;
+                        } else {
+                            inputField.classList.add('fill-wrong');
+                            // Show correct answer for fill in the blanks so they learn
+                            feedbackSpan.innerHTML = `<span class="correct-text" style="color: #ef4444;"> ✘ (Ans: ${q.correct})</span>`;
+                        }
+                    }
+                });
+            });
+
+            document.getElementById('submitBtnTop').style.display = 'none';
+            document.getElementById('submitBtnBottom').style.display = 'none';
+            
+            document.getElementById('scoreText').innerText = score;
+            if(score >= 120) document.getElementById('resultIcon').innerText = '🏆';
+            else if(score >= 90) document.getElementById('resultIcon').innerText = '🔥';
+            else document.getElementById('resultIcon').innerText = '💪';
+            
+            const modal = document.getElementById('resultModal');
+            const card = document.getElementById('resultCard');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                card.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeResultModal() {
+            const modal = document.getElementById('resultModal');
+            const card = document.getElementById('resultCard');
+            modal.classList.add('opacity-0');
+            card.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Khởi tạo
+        window.onload = renderQuestions;
+    </script>
+</body>
+</html>

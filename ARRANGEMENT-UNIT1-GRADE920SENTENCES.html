@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REARRANGEMENT - UNIT 1 - GRADE 9 (20 sentences)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            background-attachment: fixed;
+            color: #1f2937;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #c7c7cc; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a1a1aa; }
+
+        /* Glassmorphism elements */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Gen Z Border Style */
+        .genz-border {
+            border: 3px solid #1f2937;
+            box-shadow: 6px 6px 0px 0px #1f2937;
+            transition: all 0.2s ease;
+        }
+        
+        /* 3D Option button styling (MCQ) */
+        .option-label {
+            cursor: pointer;
+            display: block;
+            position: relative;
+            margin-top: 12px;
+            height: 100%;
+        }
+        .option-box {
+            border: 2px solid #1f2937;
+            border-radius: 0.75rem;
+            box-shadow: 3px 3px 0px 0px #1f2937;
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            background-color: white;
+        }
+        .option-label:hover .option-box {
+            transform: translate(-3px, -3px);
+            box-shadow: 6px 6px 0px 0px #1f2937;
+        }
+        .option-label:active .option-box {
+            transform: translate(2px, 2px);
+            box-shadow: 0px 0px 0px 0px #1f2937;
+        }
+        
+        /* Checked State Styling */
+        input[type="radio"]:checked + .option-box {
+            background-color: #1f2937 !important; 
+            border-color: #1f2937;
+            box-shadow: 4px 4px 0px 0px #a855f7 !important; 
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        input[type="radio"]:checked + .option-box .opt-text { color: white !important; }
+        input[type="radio"]:checked + .option-box .letter-circle {
+            background-color: #a855f7 !important;
+            color: white !important;
+            border-color: #1f2937;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.95); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        /* Result states after submission */
+        .correct-ans {
+            background-color: #10b981 !important;
+            border-color: #1f2937 !important;
+            box-shadow: 4px 4px 0px 0px #1f2937 !important;
+        }
+        .correct-ans .letter-circle { background-color: white !important; color: #10b981 !important; }
+        .correct-ans .opt-text { color: white !important; }
+
+        .wrong-ans {
+            background-color: #ef4444 !important;
+            border-color: #1f2937 !important;
+            box-shadow: 4px 4px 0px 0px #1f2937 !important;
+        }
+        .wrong-ans .letter-circle { background-color: white !important; color: #ef4444 !important; }
+        .wrong-ans .opt-text { color: white !important; }
+        
+        input[type="radio"]:disabled + .option-box { cursor: not-allowed; opacity: 0.9; }
+
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col relative">
+
+    <div id="startOverlay" class="fixed inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-md">
+        <div class="bg-white p-8 md:p-12 rounded-3xl genz-border text-center max-w-lg mx-4">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-4">
+                ✨ Sẵn sàng chưa?
+            </h1>
+            <p class="text-gray-600 mb-8 text-lg">Bài ôn tập chuyên đề: <b>Sentence Rearrangement (Sắp xếp câu)</b>. Lớp 9.<br>Thời gian làm bài: <b>20 phút</b>.</p>
+            <button onclick="startTest()" class="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold py-4 px-8 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-200 text-xl genz-border">
+                Bắt Đầu Làm Bài 🚀
+            </button>
+        </div>
+    </div>
+
+    <header class="sticky top-0 z-40 glass-panel border-b border-gray-200 px-4 py-3 shadow-sm">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">📝</span>
+                <h1 class="font-bold text-lg hidden sm:block bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600">Rearrangement - Grade 9</h1>
+            </div>
+            <div class="flex items-center gap-4">
+                <div id="timerBox" class="bg-indigo-100 text-indigo-800 font-mono font-bold text-xl px-4 py-2 rounded-xl border-2 border-indigo-200 flex items-center gap-2 transition-colors">
+                    ⏳ <span id="timeDisplay">20:00</span>
+                </div>
+                <button onclick="submitTest()" id="submitBtnTop" class="bg-gray-900 hover:bg-gray-800 text-white font-bold py-2 px-6 rounded-xl transition-colors hidden sm:block">
+                    Nộp Bài
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto w-full px-4 py-8">
+        
+        <div class="mb-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2 uppercase tracking-wide">Sentence Rearrangement</h2>
+            <p class="text-gray-500 font-medium text-lg">Mr Hoa Van - Grade 9 - Unit 1 (20 Questions)</p>
+        </div>
+
+        <form id="testForm" onsubmit="event.preventDefault(); submitTest();">
+            
+            <div id="q-container" class="space-y-8">
+                <!-- Sections will be injected here via JS -->
+            </div>
+
+            <div class="text-center mt-12 mb-8">
+                <button type="submit" id="submitBtnBottom" class="bg-gray-900 hover:bg-gray-800 text-white font-bold py-4 px-12 rounded-2xl shadow-xl transform hover:-translate-y-1 transition-all duration-200 text-xl genz-border">
+                    Nộp Bài & Xem Điểm ✨
+                </button>
+            </div>
+
+        </form>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 py-6 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 text-xl">Idea for Design: Mr Hoa Van!</p>
+            <p class="text-gray-400 text-sm mt-1">© 2026 - PRACTICE MAKES PERFECT (MR HOA VAN)</p>
+        </div>
+    </footer>
+
+    <div id="resultModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white p-8 md:p-12 rounded-3xl genz-border text-center max-w-md mx-4 transform scale-95 transition-transform duration-300" id="resultCard">
+            <div class="text-6xl mb-4" id="resultIcon">🎉</div>
+            <h2 class="text-3xl font-extrabold mb-2 text-gray-800">Điểm số của bạn</h2>
+            <div class="inline-block bg-gray-100 p-6 rounded-2xl mb-6 genz-border">
+                <p class="text-6xl font-black text-indigo-600"><span id="scoreText">0</span><span class="text-3xl text-gray-500">/20</span></p>
+            </div>
+            <p class="text-gray-600 mb-8 font-medium text-lg">Kết quả bài làm đã được hệ thống ghi nhận thành công!</p>
+            <button onclick="closeResultModal()" class="w-full bg-indigo-600 text-white font-bold py-4 px-6 rounded-xl hover:bg-indigo-700 transition-colors text-lg genz-border">
+                Đóng
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // QUESTION DATA - REARRANGEMENT FULL 20 CÂU (UNIT 1)
+        const sectionsData = [
+            {
+                title: "Part 1: Text Arrangement",
+                subtitle: "Mark the letter A, B, C or D to indicate the best arrangement of sentences to make a meaningful text.",
+                type: "mcq",
+                questions: [
+                    { 
+                        id: 1, 
+                        qText: "a. People learn English for various reasons. <br>b. For some, it is necessary for their jobs or future careers. <br>c. Others learn English to travel more easily and communicate with people from different countries. <br>d. Additionally, many students study English to access higher education opportunities in English-speaking countries. <br>e. Engaging in enjoyable methods encourages continuous practice and improvement.", 
+                        options: ["a – b – c – d – e", "b – c – a – d – e", "a – c – b – e – d", "c – d – a – b – e"], 
+                        correct: 0 
+                    },
+                    { 
+                        id: 2, 
+                        qText: "a. Learning English effectively requires using various methods to improve different skills. <br>b. One important strategy is to note down new words and phrases. <br>c. This can be done by reading books, articles, or any materials you come across that interests you. <br>d. Additionally, it's useful to look up words you don't understand in a dictionary. <br>e. Overall, consistency and practice are key.", 
+                        options: ["a – c – b – e – d", "a – b – c – d – e", "b – a – d – c – e", "c – d – a – b – e"], 
+                        correct: 1 
+                    },
+                    { 
+                        id: 5, 
+                        qText: "a. My friend often looks up new English words in the dictionary to improve his vocabulary. <br>b. He also tries his best to figure out the meaning of English idioms. <br>c. Tomorrow, the teacher will go over the English grammar rules again. <br>d. Therefore, he noted down all the important points from the English lecture yesterday. <br>e. He needs to look over his essay to check for any English spelling mistakes before the test.", 
+                        options: ["b – a – c – e – d", "c – d – a – b – e", "a – b – c – d – e", "a – c – b – e – d"], 
+                        correct: 2 
+                    },
+                    { 
+                        id: 6, 
+                        qText: "a. I've just been back from my vacation in Hanoi, Vietnam. <br>b. The very first place I set foot on was Van Phuc silk village, the cradle of best silk in Vietnam once. <br>c. Then, I moved on to Bat Trang ceramic village, the most famous and long-standing pottery village in Vietnam. <br>d. Here, I visited a small family factory to see how the artisans form, paint and glaze with unique products. <br>e. I even had a chance to practice my talent with wet clay and a mould.", 
+                        options: ["a – b – c – d – e", "b – a – d – c – e", "c – a – b – d – e", "a – c – b – e – d"], 
+                        correct: 0 
+                    },
+                    { 
+                        id: 7, 
+                        qText: "a. In the afternoon, I continued to visit Dong Ho folk painting village, where the traditional woodblock paintings are preserved. <br>b. I was completely impressed by the folk paintings made by the local skillful artisans with natural materials and colors. <br>c. Each painting is completely handmade on paper of the Dzo tree. <br>d. And it is coloured with other natural materials and its glittery surface is finished with oyster shell dust. <br>e. I took home a lot of handmade souvenirs which were later given to my family and friends.", 
+                        options: ["b – a – c – d – e", "a – b – c – d – e", "c – d – a – b – e", "a – c – b – d – e"], 
+                        correct: 1 
+                    },
+                    { 
+                        id: 8, 
+                        qText: "a. Channapatna is a city in Ramanagara District, Karnataka, India. <br>b. It is noted for its famous handmade lacquer wooden toys all over the world. <br>c. It's popularly known as \"Gombegala Ooru\" or the \"Toy City\" of Karnataka. <br>d. The origin of the wooden toys dates back to the period of Tipu Sultan, the ruler of Mysore. <br>e. He took the initiative to invite artisans from Persia and train the local artists to learn the process of making wooden toys.", 
+                        options: ["c – d – a – b – e", "a – c – b – d – e", "a – b – c – d – e", "b – a – d – c – e"], 
+                        correct: 1 
+                    },
+                    { 
+                        id: 9, 
+                        qText: "a. Jalan Hang Jebat, or commonly known as Jonker Walk, is a street in Chinatown of Melaka. <br>b. Jonker Walk is flanked on both sides of the road with heritage houses dating back to the 17th century. <br>c. Today, the street houses many shops selling antiques, textiles, and souvenirs. <br>d. On the weekends, starting Friday night at 6pm, the road is closed to traffic. <br>e. It turns into a very crowded night market.", 
+                        options: ["a – b – c – d – e", "b – a – c – e – d", "a – c – b – d – e", "c – a – b – e – d"], 
+                        correct: 0 
+                    },
+                    { 
+                        id: 10, 
+                        qText: "a. One way you can inspire your community to go green is by shopping locally. <br>b. That means frequenting local farmers' markets and small family-owned businesses. <br>c. The goal is to reduce food miles while supporting the local economy. <br>d. This local shopping time can allow you to get to know your community. <br>e. You might also make occasional trips to the local thrift shop or charity organization to donate food or unwanted items.", 
+                        options: ["b – a – c – d – e", "a – b – c – d – e", "c – a – b – d – e", "a – c – b – e – d"], 
+                        correct: 1 
+                    },
+                    { 
+                        id: 15, 
+                        qText: "a. The community helpers come and take care of the orphans every weekend. <br>b. Their job is to take donated food then deliver it to disadvantaged people. <br>c. Participating in volunteering activities is one way to help the community. <br>d. Every weekend, volunteers collect garbage along the beaches in the city. <br>e. Supporting traditional crafts also helps to preserve the cultural heritage of the region.", 
+                        options: ["b – a – c – d – e", "a – b – c – d – e", "c – a – b – e – d", "a – c – b – d – e"], 
+                        correct: 2 
+                    },
+                    { 
+                        id: 16, 
+                        qText: "a. Many students use different methods of learning English, such as playing games and watching movies. <br>b. They want to improve their English skills. <br>c. Watching movies with subtitles helps me improve my vocabulary. <br>d. I often note down important points when reading English books. <br>e. I can also look up new words in the Oxford Dictionary to know their meanings.", 
+                        options: ["c – d – a – b – e", "a – c – b – d – e", "a – b – c – d – e", "b – a – c – e – d"], 
+                        correct: 2 
+                    },
+                    { 
+                        id: 17, 
+                        qText: "a. Bau Truc Pottery Village is located in Ninh Thuan Province. <br>b. The tourists are looking at the artisan to find out how to make pottery. <br>c. The artisan made this statue by pouring hot liquid bronze into a mould. <br>d. It doesn't matter what you do for your community. Any involvement is good! <br>e. All of our pottery items are handcrafted in our Pottery & Arts Studio.", 
+                        options: ["a – b – c – d – e", "b – a – c – d – e", "c – a – b – e – d", "a – c – b – d – e"], 
+                        correct: 0 
+                    },
+                    { 
+                        id: 18, 
+                        qText: "a. The school has excellent sports facilities, including a gym, dance studio, Olympic sized pool and professional cricket pitch. <br>b. For a child from the suburbs, a trip to the city was a great adventure. <br>c. The Grand Bazaar, one of the oldest markets in the world, is the most popular tourist attraction in Istanbul. <br>d. Tourists visiting Hoi An can buy traditional lanterns as souvenirs. <br>e. Local people can earn their livings by providing tourists with necessary services.", 
+                        options: ["b – a – c – e – d", "a – b – c – d – e", "c – d – a – b – e", "a – c – b – d – e"], 
+                        correct: 0 
+                    },
+                    { 
+                        id: 19, 
+                        qText: "a. Mr. Nam decided to move overseas for a job opportunity in Australia. <br>b. After graduating from university, he pursued a career in graphic design. <br>c. English is often the language used at international conferences and events. <br>d. He finds reading English novels interesting as it helps him enhance his vocabulary. <br>e. Understanding the meaning of English conversations can help you connect with people from various cultures.", 
+                        options: ["c – a – b – d – e", "a – c – b – e – d", "a – b – c – d – e", "b – a – c – d – e"], 
+                        correct: 2 
+                    },
+                    { 
+                        id: 20, 
+                        qText: "a. My father is an electrician. <br>b. He repairs and maintains the electrical systems of our house. <br>c. The electrical wires broke down after the thunderstorm, so they had to call an electrician. <br>d. It is essential to hire a qualified electrician to replace a light fixture safely. <br>e. We eagerly took the food and tipped the delivery man.", 
+                        options: ["a – b – c – d – e", "b – a – c – d – e", "c – d – a – b – e", "a – c – b – d – e"], 
+                        correct: 0 
+                    }
+                ]
+            },
+            {
+                title: "Part 2: Dialogue Arrangement",
+                subtitle: "Mark the letter A, B, C or D to indicate the best arrangement of utterances to make a meaningful exchange.",
+                type: "mcq",
+                questions: [
+                    { 
+                        id: 3, 
+                        qText: "a. A: Why do many students enjoy learning English? <br>b. B: Many students enjoy learning English because it is a global language. <br>c. A: What method do you often use to practice speaking English more fluently? <br>d. B: I often use the \"shadowing\" method. <br>e. A: That sounds like a great way to improve your English skills.", 
+                        options: ["a – c – b – d – e", "c – d – a – b – e", "a – b – c – d – e", "b – a – d – c – e"], 
+                        correct: 2 
+                    },
+                    { 
+                        id: 4, 
+                        qText: "a. A: I find it difficult to understand English movies. <br>b. B: When it's challenging to figure out what's happening in an English movie, you can turn on the subtitles. <br>c. A: That's a good idea. I will try it tonight. <br>d. B: Also, watching TV shows in English helps you learn new words every day. <br>e. A: Thanks! I will look up new words in the dictionary too.", 
+                        options: ["a – b – c – d – e", "b – a – c – e – d", "c – d – a – b – e", "a – c – b – d – e"], 
+                        correct: 0 
+                    },
+                    { 
+                        id: 11, 
+                        qText: "a. A: Do you mind showing me where to buy these handmade items? <br>b. B: Not at all. I bought them at the shop over there. <br>c. A: Could you please tell me who could make marble sculptures? <br>d. B: You can go to Non Nuoc marble village. <br>e. A: Thank you. I have done it several times before but I still need help.", 
+                        options: ["a – b – c – d – e", "c – d – a – b – e", "b – a – c – e – d", "a – c – b – e – d"], 
+                        correct: 1 
+                    },
+                    { 
+                        id: 12, 
+                        qText: "a. A: Could you tell me the name of the new garbage collector, please? <br>b. B: Sure. His name is Stephen. <br>c. A: Do you know what time the garbage collector comes to take the rubbish? <br>d. B: He usually comes around 6 or 7 p.m. <br>e. A: Thanks a lot! I will take out the rubbish then.", 
+                        options: ["a – c – b – d – e", "a – b – c – d – e", "c – d – a – b – e", "b – a – c – d – e"], 
+                        correct: 1 
+                    },
+                    { 
+                        id: 13, 
+                        qText: "a. Joe: I am planning to visit Vung Tau at the end of this month. <br>b. Linh: Oh, cool! Summer is the best time to visit the city. <br>c. Joe: But I still don't know where to look around. Could you give me some suggestions? <br>d. Linh: Sure. There are some popular places of interest such as Christ The King Statue and the beaches. <br>e. Joe: Sounds fascinating! Hmm, I think travelling by coach may be the best choice.", 
+                        options: ["c – a – b – d – e", "a – c – b – d – e", "a – b – c – d – e", "b – a – c – e – d"], 
+                        correct: 2 
+                    },
+                    { 
+                        id: 14, 
+                        qText: "a. Joe: By the way, do you mind giving me some recommendation for local food? <br>b. Linh: Not at all, \"banh khot\" is a must-try ... and don't forget to eat the seafood. <br>c. Linh: I bet its taste will absolutely appeal to you. <br>d. Joe: Thank you so much! I think my trip will be great! <br>e. Linh: You're welcome! Have a nice trip!", 
+                        options: ["a – b – c – d – e", "b – a – c – e – d", "c – d – a – b – e", "a – c – b – d – e"], 
+                        correct: 0 
+                    }
+                ]
+            }
+        ];
+
+        function renderQuestions() {
+            const optionBgColors = ['bg-[#ffe4e6] hover:bg-[#fecdd3]', 'bg-[#e0e7ff] hover:bg-[#c7d2fe]', 'bg-[#fef9c3] hover:bg-[#fef08a]', 'bg-[#dcfce7] hover:bg-[#bbf7d0]'];
+            const container = document.getElementById(`q-container`);
+            
+            sectionsData.forEach((sec) => {
+                const secHeader = document.createElement('div');
+                secHeader.className = "w-full mt-4 mb-4";
+                secHeader.innerHTML = `
+                    <h2 class="text-2xl font-black text-indigo-700 bg-indigo-100 inline-block px-6 py-2 rounded-2xl genz-border uppercase">${sec.title}</h2>
+                    <p class="text-gray-600 font-medium text-lg mt-3 bg-white p-4 rounded-xl border border-gray-200">${sec.subtitle}</p>
+                `;
+                container.appendChild(secHeader);
+
+                const gridWrapper = document.createElement('div');
+                gridWrapper.className = "grid grid-cols-1 lg:grid-cols-2 gap-6 w-full";
+                
+                sec.questions.forEach((q) => {
+                    const qDiv = document.createElement('div');
+                    qDiv.className = "bg-white rounded-3xl p-6 shadow-sm border-2 border-gray-100 hover:shadow-md transition h-full flex flex-col";
+                    
+                    let optionsHtml = q.options.map((opt, i) => `
+                        <label class="option-label flex-grow">
+                            <input type="radio" name="q${q.id}" value="${i}" class="peer hidden">
+                            <div class="option-box p-3 flex items-center gap-3 ${optionBgColors[i]}">
+                                <span class="letter-circle w-8 h-8 rounded-full bg-white flex items-center justify-center font-black text-sm shrink-0 transition-colors border-2 border-gray-900 text-gray-900">${String.fromCharCode(65 + i)}</span>
+                                <span class="opt-text text-[15px] font-semibold text-gray-800 transition-colors leading-snug">${opt}</span>
+                            </div>
+                        </label>
+                    `).join('');
+
+                    qDiv.innerHTML = `
+                        <div class="mb-5 flex-grow">
+                            <h4 class="font-black text-xl text-indigo-700 mb-3">Question ${q.id}.</h4>
+                            <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 text-gray-800 font-semibold text-[1.05rem] leading-relaxed">
+                                ${q.qText}
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-auto">
+                            ${optionsHtml}
+                        </div>
+                    `;
+                    gridWrapper.appendChild(qDiv);
+                });
+                
+                container.appendChild(gridWrapper);
+            });
+        }
+
+        let timeLeft = 1200; // 20 minutes
+        let timerInterval;
+        let audioCtx;
+        let isSubmitted = false;
+
+        function startTest() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            document.getElementById('startOverlay').style.display = 'none';
+            timerInterval = setInterval(() => {
+                if(isSubmitted) return;
+                timeLeft--;
+                updateTimerDisplay();
+
+                if (timeLeft === 60) {
+                    playAlarm();
+                    document.getElementById('timerBox').classList.replace('bg-indigo-100', 'bg-red-100');
+                    document.getElementById('timerBox').classList.replace('text-indigo-800', 'text-red-600');
+                    document.getElementById('timerBox').classList.replace('border-indigo-200', 'border-red-300');
+                    document.getElementById('timerBox').classList.add('animate-pulse');
+                }
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitTest();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            let m = Math.floor(timeLeft / 60);
+            let s = timeLeft % 60;
+            document.getElementById('timeDisplay').innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+
+        function playAlarm() {
+            if(!audioCtx) return;
+            for(let i=0; i<3; i++) {
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(880, audioCtx.currentTime + i*0.4); 
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime + i*0.4);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i*0.4 + 0.3);
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                osc.start(audioCtx.currentTime + i*0.4);
+                osc.stop(audioCtx.currentTime + i*0.4 + 0.3);
+            }
+        }
+
+        function submitTest() {
+            if(isSubmitted) return;
+            isSubmitted = true;
+            clearInterval(timerInterval);
+            
+            let score = 0;
+            
+            sectionsData.forEach(sec => {
+                sec.questions.forEach(q => {
+                    const selected = document.querySelector(`input[name="q${q.id}"]:checked`);
+                    const allOptionsBox = document.querySelectorAll(`input[name="q${q.id}"] + .option-box`);
+                    document.querySelectorAll(`input[name="q${q.id}"]`).forEach(input => input.disabled = true);
+
+                    let userAnsIndex = selected ? parseInt(selected.value) : -1;
+                    allOptionsBox.forEach((box) => {
+                        box.classList.remove('hover:bg-[#fecdd3]', 'hover:bg-[#c7d2fe]', 'hover:bg-[#fef08a]', 'hover:bg-[#bbf7d0]');
+                    });
+                    if (userAnsIndex === q.correct) score++;
+                });
+            });
+
+            document.getElementById('submitBtnTop').style.display = 'none';
+            document.getElementById('submitBtnBottom').style.display = 'none';
+            
+            document.getElementById('scoreText').innerText = score;
+            if(score >= 18) document.getElementById('resultIcon').innerText = '🏆';
+            else if(score >= 12) document.getElementById('resultIcon').innerText = '🔥';
+            else document.getElementById('resultIcon').innerText = '💪';
+            
+            const modal = document.getElementById('resultModal');
+            const card = document.getElementById('resultCard');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                card.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeResultModal() {
+            const modal = document.getElementById('resultModal');
+            const card = document.getElementById('resultCard');
+            modal.classList.add('opacity-0');
+            card.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.onload = renderQuestions;
+    </script>
+</body>
+</html>
